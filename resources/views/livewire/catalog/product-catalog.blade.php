@@ -18,17 +18,17 @@
     @else
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             @foreach ($products as $product)
-                <article class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+                <article class="group overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
                     @if ($product->images->isNotEmpty())
                         <img
-                            src="{{ asset('storage/' . $product->images->first()->path) }}"
-                            alt="{{ $product->name }}"
-                            class="h-56 w-full object-cover"
-                        >
+    src="{{ asset('storage/' . $product->images->first()->path) }}"
+    alt="{{ $product->name }}"
+    class="h-64 w-full object-cover transition duration-500 group-hover:scale-105"
+>
                     @else
-                        <div class="flex h-56 items-center justify-center bg-gray-100 text-gray-400">
-                            Нет изображения
-                        </div>
+                        <div class="flex h-64 items-center justify-center bg-stone-100 text-sm text-stone-400">
+    Нет изображения
+</div>
                     @endif
 
                     <div class="p-5">
@@ -36,9 +36,9 @@
                             {{ $product->category?->name }}
                         </div>
 
-                        <h2 class="text-lg font-semibold text-gray-900">
-                            {{ $product->name }}
-                        </h2>
+                        <h2 class="text-lg font-semibold text-stone-950 transition group-hover:text-rose-600">
+    {{ $product->name }}
+</h2>
 
                         @if ($product->description)
                             <p class="mt-2 line-clamp-2 text-sm text-gray-600">
