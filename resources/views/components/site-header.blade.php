@@ -1,92 +1,38 @@
-<header class="sticky top-0 z-40 border-b border-stone-200/80 bg-stone-50/95 backdrop-blur">
-    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-
-        <a
-            href="{{ route('home') }}"
-            class="text-xl font-bold tracking-tight text-stone-950 transition hover:text-rose-600"
-        >
-            {{ config('app.name') }}
+<header class="sticky top-0 z-40 border-b border-stone-200/80 bg-stone-50/90 backdrop-blur">
+    <div class="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+        <a href="{{ route('home') }}" class="flex items-center gap-3">
+            <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-900 text-2xl shadow-sm">🍣</span>
+            <span>
+                <span class="block text-lg font-black leading-none text-stone-900">{{ config('app.name') }}</span>
+                <span class="mt-1 block text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-700">sushi market</span>
+            </span>
         </a>
 
-        <nav
-            class="hidden items-center gap-8 text-sm font-medium md:flex"
-            aria-label="Основная навигация"
-        >
-            <a
-                href="{{ route('home') }}"
-                class="text-stone-700 transition hover:text-rose-600"
-            >
+        <nav class="hidden items-center gap-1 md:flex">
+            <a href="{{ route('home') }}" class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
                 Главная
             </a>
-
-            <a
-                href="{{ route('catalog') }}"
-                class="text-stone-700 transition hover:text-rose-600"
-            >
+            <a href="{{ route('catalog') }}" class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
                 Меню
             </a>
-
-            <a
-                href="#"
-                class="text-stone-700 transition hover:text-rose-600"
-            >
+            <a href="#" class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
                 Доставка
             </a>
-
-            <a
-                href="#"
-                class="text-stone-700 transition hover:text-rose-600"
-            >
+            <a href="#" class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
                 Контакты
             </a>
         </nav>
 
-        <a
-            href="{{ route('catalog') }}"
-            class="hidden rounded-full bg-rose-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-rose-700 hover:shadow md:inline-flex"
-        >
-            Смотреть меню
-        </a>
-
-        <details class="relative md:hidden">
-            <summary
-                class="cursor-pointer list-none rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-800 shadow-sm"
-            >
-                Меню
-            </summary>
-
-            <nav
-                class="absolute right-0 z-50 mt-3 w-52 rounded-xl border border-stone-200 bg-white p-2 shadow-xl"
-                aria-label="Мобильная навигация"
-            >
-                <a
-                    href="{{ route('home') }}"
-                    class="block rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-100"
-                >
-                    Главная
-                </a>
-
-                <a
-                    href="{{ route('catalog') }}"
-                    class="block rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-100"
-                >
-                    Меню
-                </a>
-
-                <a
-                    href="#"
-                    class="block rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-100"
-                >
-                    Доставка
-                </a>
-
-                <a
-                    href="#"
-                    class="block rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-100"
-                >
-                    Контакты
-                </a>
-            </nav>
-        </details>
+        <div class="flex items-center gap-2">
+            <button type="button" class="hidden rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-stone-700 ring-1 ring-stone-200 sm:block">
+                Войти
+            </button>
+            <button type="button" class="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-900 text-xl text-white shadow-sm transition hover:bg-emerald-800">
+                🛒
+                <span class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-black text-white">
+                    0
+                </span>
+            </button>
+        </div>
     </div>
 </header>

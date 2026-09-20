@@ -1,102 +1,95 @@
-<div>
-    <section class="relative overflow-hidden">
-        <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-            <div class="max-w-3xl">
-                <span
-                    class="inline-flex items-center rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-sm font-medium text-rose-700"
-                >
-                    Свежие блюда · Доставка
+<div class="space-y-16">
+    <section class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-950 via-emerald-900 to-stone-900 px-6 py-12 text-white shadow-xl sm:px-10 lg:px-14 lg:py-16">
+        <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-amber-300/20 blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-rose-300/20 blur-3xl"></div>
+
+        <div class="relative grid items-center gap-10 lg:grid-cols-[1.05fr_.95fr]">
+            <div class="max-w-2xl">
+                <span class="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-semibold ring-1 ring-white/15">
+                    Суши · Роллы · Сеты
                 </span>
 
-                <h1
-                    class="mt-6 text-5xl font-bold tracking-tight text-stone-950 sm:text-6xl lg:text-7xl"
-                >
-                    Вкус, который
-                    <span class="text-rose-600">хочется повторить.</span>
+                <h1 class="mt-5 text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
+                    Яркий вкус,<br>
+                    который хочется повторить
                 </h1>
 
-                <p class="mt-6 max-w-2xl text-lg leading-8 text-stone-600">
-                    Выберите любимые блюда из меню и оформите заказ с доставкой.
+                <p class="mt-5 max-w-xl text-base leading-7 text-emerald-50/80 sm:text-lg">
+                    Выбирай любимые блюда в каталоге и собирай заказ под себя.
                 </p>
 
-                <div class="mt-9 flex flex-wrap gap-4">
-                    <a
-                        href="{{ route('catalog') }}"
-                        class="rounded-full bg-rose-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-rose-600/20 transition hover:bg-rose-700"
-                    >
-                        Перейти в меню
+                <div class="mt-8 flex flex-wrap gap-3">
+                    <a href="{{ route('catalog') }}"
+                       class="rounded-2xl bg-amber-300 px-6 py-3.5 font-bold text-stone-950 shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-200">
+                        Смотреть меню
                     </a>
-
-                    <a
-                        href="{{ route('catalog') }}"
-                        class="rounded-full border border-stone-300 bg-white px-7 py-3.5 text-sm font-semibold text-stone-800 transition hover:border-stone-400 hover:bg-stone-100"
-                    >
-                        Посмотреть блюда
+                    <a href="#features"
+                       class="rounded-2xl bg-white/10 px-6 py-3.5 font-bold text-white ring-1 ring-white/15 transition hover:bg-white/15">
+                        Узнать больше
                     </a>
                 </div>
             </div>
-        </div>
 
-        <div
-            class="pointer-events-none absolute -right-32 -top-32 -z-10 h-96 w-96 rounded-full bg-rose-100 blur-3xl"
-        ></div>
-
-        <div
-            class="pointer-events-none absolute -bottom-40 left-1/3 -z-10 h-96 w-96 rounded-full bg-orange-100 blur-3xl"
-        ></div>
-    </section>
-
-    <section class="border-y border-stone-200 bg-white">
-        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-3 sm:px-6 lg:px-8">
-            <div>
-                <div class="text-2xl font-bold text-stone-950">
-                    Свежие блюда
+            <div class="relative mx-auto w-full max-w-lg">
+                <div class="aspect-square rounded-[2rem] bg-gradient-to-br from-amber-100 via-rose-100 to-emerald-100 p-5 shadow-2xl">
+                    <div class="flex h-full items-center justify-center rounded-[1.5rem] border-2 border-dashed border-emerald-900/15 bg-white/50">
+                        <div class="text-center">
+                            <div class="mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-white text-7xl shadow-lg">
+                                🍣
+                            </div>
+                            <p class="mt-5 text-xl font-black text-stone-800">Твой будущий заказ</p>
+                            <p class="mt-2 text-sm text-stone-600">Здесь позже появится фирменная иллюстрация</p>
+                        </div>
+                    </div>
                 </div>
 
-                <p class="mt-2 text-sm leading-6 text-stone-600">
-                    Приготовление непосредственно перед заказом.
-                </p>
-            </div>
-
-            <div>
-                <div class="text-2xl font-bold text-stone-950">
-                    Удобный заказ
+                <div class="absolute -bottom-4 -left-4 rounded-2xl bg-white px-4 py-3 text-sm font-bold text-stone-800 shadow-xl">
+                    🍙 Выбирай любимое
                 </div>
-
-                <p class="mt-2 text-sm leading-6 text-stone-600">
-                    Простой процесс выбора и оформления заказа.
-                </p>
-            </div>
-
-            <div>
-                <div class="text-2xl font-bold text-stone-950">
-                    Доставка
+                <div class="absolute -right-4 -top-4 rounded-2xl bg-rose-500 px-4 py-3 text-sm font-bold text-white shadow-xl">
+                    🌸 Яркое настроение
                 </div>
-
-                <p class="mt-2 text-sm leading-6 text-stone-600">
-                    Условия доставки будут настроены после получения бизнес-данных.
-                </p>
             </div>
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-                <p class="text-sm font-semibold uppercase tracking-wider text-rose-600">
-                    Меню
-                </p>
+    <section id="features">
+        <div class="mb-7">
+            <p class="text-sm font-bold uppercase tracking-[0.2em] text-emerald-700">Просто и удобно</p>
+            <h2 class="mt-2 text-3xl font-black tracking-tight text-stone-900 sm:text-4xl">Всё для быстрого заказа</h2>
+        </div>
 
-                <h2 class="mt-2 text-3xl font-bold tracking-tight text-stone-950">
-                    Выберите блюдо
-                </h2>
+        <div class="grid gap-5 md:grid-cols-3">
+            <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-stone-200">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-2xl">🍣</div>
+                <h3 class="mt-5 text-xl font-extrabold">Понятное меню</h3>
+                <p class="mt-2 leading-6 text-stone-600">Категории и карточки помогают быстро найти нужное блюдо.</p>
             </div>
 
-            <a
-                href="{{ route('catalog') }}"
-                class="text-sm font-semibold text-rose-600 hover:text-rose-700"
-            >
-                Смотреть всё →
+            <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-stone-200">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-100 text-2xl">🌸</div>
+                <h3 class="mt-5 text-xl font-extrabold">Яркий интерфейс</h3>
+                <p class="mt-2 leading-6 text-stone-600">Тёплая палитра и мягкие формы создают характер бренда.</p>
+            </div>
+
+            <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-stone-200">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-2xl">🛒</div>
+                <h3 class="mt-5 text-xl font-extrabold">Удобный заказ</h3>
+                <p class="mt-2 leading-6 text-stone-600">Каталог станет основным маршрутом от выбора блюда до корзины.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="overflow-hidden rounded-[2rem] bg-amber-100 px-6 py-10 sm:px-10">
+        <div class="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+            <div>
+                <p class="text-sm font-bold uppercase tracking-[0.2em] text-amber-800">Каталог</p>
+                <h2 class="mt-2 text-3xl font-black text-stone-900">Готов выбрать роллы?</h2>
+                <p class="mt-2 text-stone-700">Перейди в меню и посмотри доступные блюда.</p>
+            </div>
+            <a href="{{ route('catalog') }}"
+               class="shrink-0 rounded-2xl bg-stone-900 px-6 py-3.5 font-bold text-white transition hover:bg-stone-800">
+                Открыть каталог →
             </a>
         </div>
     </section>
