@@ -1,7 +1,11 @@
 <?php
 
+use App\Livewire\Home;
+use App\Livewire\Catalog\ProductCatalog;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('pages.home');
-})->name('home');
+Route::get('/', Home::class)
+    ->name('home');
+
+Route::get('/catalog', ProductCatalog::class)
+    ->name('catalog');
