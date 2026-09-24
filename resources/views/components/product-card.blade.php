@@ -67,10 +67,12 @@
                 @endif
             </div>
 
-            <button type="button"
-                class="shrink-0 rounded-2xl bg-emerald-900 px-4 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:bg-emerald-800 active:scale-95">
-                Выбрать
-            </button>
+            <a
+    href="{{ route('catalog.product', ['product' => $product->slug]) }}"
+    class="shrink-0 rounded-2xl bg-emerald-900 px-4 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:bg-emerald-800 active:scale-95"
+>
+    Выбрать
+</a>
         </div>
     </div>
 </article>
