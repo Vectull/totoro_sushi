@@ -30,10 +30,15 @@
                             class="h-56 w-full object-cover"
                         >
                     @else
-                        <div class="flex h-56 items-center justify-center bg-gray-100 text-gray-400">
-                            Нет изображения
-                        </div>
-                    @endif
+    <div class="flex h-56 items-center justify-center bg-gray-100 text-gray-400">
+        <div class="text-center">
+            <div class="mb-2 text-4xl">🍣</div>
+            <div class="text-sm font-medium">
+                Нет изображения
+            </div>
+        </div>
+    </div>
+@endif
 
                     <div class="p-5">
                         <div class="mb-2 text-sm text-gray-500">
