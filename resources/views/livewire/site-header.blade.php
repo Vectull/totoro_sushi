@@ -58,17 +58,16 @@
 
             <a
                 href="{{ route('cart') }}"
-                wire:navigate
-                class="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-900 text-xl text-white shadow-sm transition hover:bg-emerald-800 active:scale-95"
-                aria-label="Корзина"
+                class="relative flex h-11 min-w-11 items-center justify-center rounded-2xl bg-emerald-900 px-3 text-xl text-white shadow-sm transition hover:bg-emerald-800 active:scale-95"
+                aria-label="Открыть корзину"
             >
                 🛒
 
-                @if ($cartCount > 0)
-                    <span class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-black text-white">
-                        {{ $cartCount > 99 ? '99+' : $cartCount }}
-                    </span>
-                @endif
+                <span
+                    class="absolute -right-2 -top-2 flex h-6 min-w-6 items-center justify-center rounded-full bg-rose-500 px-1.5 text-[11px] font-black text-white shadow-sm"
+                >
+                    {{ $cartCount > 99 ? '99+' : $cartCount }}
+                </span>
             </a>
 
         </div>

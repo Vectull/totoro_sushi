@@ -1,5 +1,14 @@
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
+  @if (session()->has('cart_message'))
+        <div
+            class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-800"
+        >
+            {{ session('cart_message') }}
+        </div>
+    @endif
+
+
     <div class="mb-6">
         <a
             href="{{ route('catalog') }}"
