@@ -1,138 +1,248 @@
 <div class="space-y-8">
-    <div class="flex items-center justify-between">
-        <h1 class="text-3xl font-bold text-gray-900">
-            Корзина
-        </h1>
+
+    {{-- Заголовок --}}
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-sm font-bold uppercase tracking-[0.16em] text-emerald-700">
+                Ваш заказ
+            </p>
+
+            <h1 class="mt-1 text-3xl font-black tracking-tight text-stone-900">
+                Корзина
+            </h1>
+        </div>
 
         @if ($items)
             <button
                 type="button"
                 wire:click="clear"
-                class="text-sm text-red-600 hover:text-red-700"
+                wire:loading.attr="disabled"
+                class="self-start rounded-xl px-4 py-2 text-sm font-bold text-rose-600 transition hover:bg-rose-50 disabled:opacity-50"
             >
                 Очистить корзину
             </button>
         @endif
     </div>
 
+    {{-- Сообщение --}}
     @if (session('cart_message'))
-        <div class="rounded-2xl bg-green-50 px-4 py-3 text-green-700">
+        <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-800">
             {{ session('cart_message') }}
         </div>
     @endif
 
+    {{-- Пустая корзина --}}
     @if (empty($items))
-        <div class="rounded-3xl border border-dashed p-12 text-center">
-            <h2 class="text-xl font-semibold text-gray-900">
+
+        <div class="rounded-3xl border border-dashed border-stone-300 bg-white px-6 py-16 text-center shadow-sm">
+
+            <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-emerald-50 text-4xl">
+                🛒
+            </div>
+
+            <h2 class="mt-6 text-2xl font-black text-stone-900">
                 Корзина пуста
             </h2>
 
-            <p class="mt-2 text-gray-500">
-                Добавьте что-нибудь из каталога.
+            <p class="mx-auto mt-2 max-w-md text-stone-500">
+                Добавьте что-нибудь вкусное из нашего меню.
             </p>
 
             <a
                 href="{{ route('catalog') }}"
-                class="mt-6 inline-flex rounded-2xl bg-green-600 px-6 py-3 font-semibold text-white"
+                wire:navigate
+                class="mt-7 inline-flex rounded-2xl bg-emerald-900 px-6 py-3.5 font-bold text-white shadow-sm transition hover:bg-emerald-800 active:scale-95"
             >
-                Перейти в каталог
+                Перейти в меню
             </a>
+
         </div>
+
     @else
-        <div class="grid gap-8 lg:grid-cols-[1fr_360px]">
+
+        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+
+            {{-- Товары --}}
             <div class="space-y-4">
+
                 @foreach ($items as $key => $item)
-                    <div class="flex gap-4 rounded-3xl border p-4">
-                        <div class="h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-gray-100">
-                            @if ($item['image'])
-                                <img
-                                    src="{{ asset('storage/' . $item['image']) }}"
-                                    alt="{{ $item['name'] }}"
-                                    class="h-full w-full object-cover"
-                                >
-                            @endif
-                        </div>
 
-                        <div class="min-w-0 flex-1">
-                            <h2 class="font-semibold text-gray-900">
-                                {{ $item['name'] }}
-                            </h2>
+                    <article
+                        wire:key="cart-item-{{ $key }}"
+                        class="rounded-3xl border border-stone-200 bg-white p-4 shadow-sm sm:p-5"
+                    >
+                        <div class="flex gap-4 sm:gap-5">
 
-                            @if (! empty($item['modifiers']))
-                                <div class="mt-1 text-sm text-gray-500">
-                                    @foreach ($item['modifiers'] as $modifier)
-                                        <div>
-                                            {{ $modifier['name'] }}
-                                            +{{ number_format($modifier['price'], 0, ',', ' ') }} ₽
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
+                            {{-- Изображение --}}
+                            <div class="h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-stone-100 sm:h-32 sm:w-32">
 
-                            <div class="mt-3 flex items-center justify-between gap-4">
-                                <div class="flex items-center rounded-xl border">
+                                @if ($item['image'])
+                                    <img
+                                        src="{{ asset('storage/' . $item['image']) }}"
+                                        alt="{{ $item['name'] }}"
+                                        class="h-full w-full object-cover"
+                                    >
+                                @else
+                                    <div class="flex h-full w-full flex-col items-center justify-center text-stone-400">
+                                        <span class="text-3xl">🍣</span>
+                                        <span class="mt-1 text-[10px] font-semibold">
+                                            Нет фото
+                                        </span>
+                                    </div>
+                                @endif
+
+                            </div>
+
+                            {{-- Информация --}}
+                            <div class="min-w-0 flex-1">
+
+                                <div class="flex items-start justify-between gap-3">
+
+                                    <div>
+                                        <h2 class="font-black text-stone-900 sm:text-lg">
+                                            {{ $item['name'] }}
+                                        </h2>
+
+                                        <p class="mt-1 text-sm text-stone-500">
+                                            {{ number_format($item['unit_price'], 0, ',', ' ') }} ₽ / шт.
+                                        </p>
+                                    </div>
+
                                     <button
                                         type="button"
-                                        wire:click="updateQuantity('{{ $key }}', {{ $item['quantity'] - 1 }})"
-                                        class="px-3 py-2"
+                                        wire:click="remove('{{ $key }}')"
+                                        wire:loading.attr="disabled"
+                                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-xl text-stone-400 transition hover:bg-rose-50 hover:text-rose-600 disabled:opacity-50"
+                                        aria-label="Удалить товар"
+                                        title="Удалить"
                                     >
-                                        −
+                                        ×
                                     </button>
 
-                                    <span class="min-w-8 text-center">
-                                        {{ $item['quantity'] }}
-                                    </span>
-
-                                    <button
-                                        type="button"
-                                        wire:click="updateQuantity('{{ $key }}', {{ $item['quantity'] + 1 }})"
-                                        class="px-3 py-2"
-                                    >
-                                        +
-                                    </button>
                                 </div>
 
-                                <div class="font-semibold">
-                                    {{ number_format($item['unit_price'] * $item['quantity'], 0, ',', ' ') }} ₽
+                                {{-- Добавки --}}
+                                @if (! empty($item['modifiers']))
+                                    <div class="mt-3 space-y-1">
+                                        @foreach ($item['modifiers'] as $modifier)
+                                            <div class="text-sm text-stone-500">
+                                                {{ $modifier['name'] }}
+                                                <span class="text-stone-400">
+                                                    +{{ number_format($modifier['price'], 0, ',', ' ') }} ₽
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                {{-- Низ карточки --}}
+                                <div class="mt-4 flex flex-wrap items-center justify-between gap-4">
+
+                                    {{-- Количество --}}
+                                    <div class="flex items-center rounded-xl border border-stone-200 bg-stone-50">
+
+                                        <button
+                                            type="button"
+                                            wire:click="updateQuantity('{{ $key }}', {{ $item['quantity'] - 1 }})"
+                                            wire:loading.attr="disabled"
+                                            class="flex h-10 w-10 items-center justify-center rounded-l-xl text-lg font-bold text-stone-700 transition hover:bg-white disabled:opacity-50"
+                                        >
+                                            −
+                                        </button>
+
+                                        <span class="flex h-10 min-w-10 items-center justify-center border-x border-stone-200 bg-white text-sm font-black text-stone-900">
+                                            {{ $item['quantity'] }}
+                                        </span>
+
+                                        <button
+                                            type="button"
+                                            wire:click="updateQuantity('{{ $key }}', {{ $item['quantity'] + 1 }})"
+                                            wire:loading.attr="disabled"
+                                            class="flex h-10 w-10 items-center justify-center rounded-r-xl text-lg font-bold text-stone-700 transition hover:bg-white disabled:opacity-50"
+                                        >
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                    {{-- Цена позиции --}}
+                                    <div class="text-lg font-black text-stone-900">
+                                        {{ number_format($item['unit_price'] * $item['quantity'], 0, ',', ' ') }} ₽
+                                    </div>
+
                                 </div>
+
                             </div>
                         </div>
+                    </article>
 
-                        <button
-                            type="button"
-                            wire:click="remove('{{ $key }}')"
-                            class="self-start text-gray-400 hover:text-red-600"
-                            aria-label="Удалить"
-                        >
-                            ×
-                        </button>
-                    </div>
                 @endforeach
+
             </div>
 
-            <aside class="h-fit rounded-3xl border p-6">
-                <h2 class="text-xl font-semibold">
-                    Итого
-                </h2>
+            {{-- Итого --}}
+            <aside class="h-fit lg:sticky lg:top-28">
 
-                <div class="mt-4 flex justify-between text-gray-600">
-                    <span>Товары</span>
-                    <span>{{ $count }} шт.</span>
+                <div class="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+
+                    <h2 class="text-xl font-black text-stone-900">
+                        Ваш заказ
+                    </h2>
+
+                    <div class="mt-6 space-y-3 text-sm">
+
+                        <div class="flex justify-between text-stone-500">
+                            <span>Товары</span>
+                            <span>{{ $count }} шт.</span>
+                        </div>
+
+                        <div class="flex justify-between text-stone-500">
+                            <span>Стоимость товаров</span>
+                            <span>
+                                {{ number_format($total, 0, ',', ' ') }} ₽
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="my-5 border-t border-stone-200"></div>
+
+                    <div class="flex items-end justify-between gap-4">
+                        <span class="font-bold text-stone-700">
+                            Итого
+                        </span>
+
+                        <span class="text-2xl font-black text-stone-900">
+                            {{ number_format($total, 0, ',', ' ') }} ₽
+                        </span>
+                    </div>
+
+                    <button
+                        type="button"
+                        disabled
+                        class="mt-6 w-full cursor-not-allowed rounded-2xl bg-stone-200 px-6 py-4 font-bold text-stone-500"
+                    >
+                        Оформить заказ
+                    </button>
+
+                    <a
+                        href="{{ route('catalog') }}"
+                        wire:navigate
+                        class="mt-3 flex w-full items-center justify-center rounded-2xl px-6 py-3.5 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50"
+                    >
+                        ← Продолжить покупки
+                    </a>
+
                 </div>
 
-                <div class="mt-2 flex justify-between text-xl font-bold">
-                    <span>Сумма</span>
-                    <span>{{ number_format($total, 0, ',', ' ') }} ₽</span>
+                <div class="mt-4 rounded-2xl bg-emerald-50 px-5 py-4 text-sm leading-5 text-emerald-900">
+                    Доставка и оформление заказа будут доступны на следующем этапе.
                 </div>
 
-                <button
-                    type="button"
-                    disabled
-                    class="mt-6 w-full cursor-not-allowed rounded-2xl bg-gray-200 px-6 py-4 font-semibold text-gray-500"
-                >
-                    Оформление заказа — следующим этапом
-                </button>
             </aside>
+
         </div>
+
     @endif
+
 </div>
