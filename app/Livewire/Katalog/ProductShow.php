@@ -35,21 +35,21 @@ class ProductShow extends Component
         $this->quantity = max(1, $this->quantity - 1);
     }
 
-    public function addToCart(CartService $cart): void
-    {
-        $cart->add(
-            $this->product,
-            $this->quantity,
-            $this->selectedModifiers
-        );
+   public function addToCart(CartService $cart): void
+{
+    $cart->add(
+        $this->product,
+        $this->quantity,
+        $this->selectedModifiers
+    );
 
-        session()->flash(
-            'cart_message',
-            'Товар добавлен в корзину.'
-        );
+    $this->dispatch('cart-updated');
 
-        $this->redirectRoute('cart');
-    }
+    session()->flash(
+        'cart_message',
+        'Товар добавлен в корзину.'
+    );
+}
 
     public function render()
     {
