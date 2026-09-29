@@ -4,6 +4,8 @@ use App\Livewire\Cart;
 use App\Livewire\Home;
 use App\Livewire\Katalog\ProductCatalog;
 use App\Livewire\Katalog\ProductShow;
+use App\Livewire\OrderShow;
+use App\Livewire\Checkout;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)
@@ -17,3 +19,9 @@ Route::get('/catalog/{product:slug}', ProductShow::class)
 
 Route::get('/cart', Cart::class)
     ->name('cart');
+
+Route::get('/checkout', Checkout::class)
+    ->name('checkout');
+
+Route::get('/orders/{order}', OrderShow::class)
+    ->name('order.show');

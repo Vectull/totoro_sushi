@@ -217,13 +217,13 @@
                         </span>
                     </div>
 
-                    <button
-                        type="button"
-                        disabled
-                        class="mt-6 w-full cursor-not-allowed rounded-2xl bg-stone-200 px-6 py-4 font-bold text-stone-500"
-                    >
-                        Оформить заказ
-                    </button>
+                    <a
+    href="{{ route('checkout') }}"
+    wire:navigate
+    class="mt-6 flex w-full items-center justify-center rounded-2xl bg-emerald-900 px-6 py-4 font-bold text-white shadow-sm transition hover:bg-emerald-800 active:scale-[0.98]"
+>
+    Оформить заказ
+</a>
 
                     <a
                         href="{{ route('catalog') }}"
