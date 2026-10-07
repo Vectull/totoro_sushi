@@ -35,6 +35,20 @@ class OrdersTable
                         fn (OrderStatus $state) => $state->label()
                     ),
 
+                    TextColumn::make('delivery_method')
+    ->label('Получение')
+    ->formatStateUsing(
+        fn ($state) => $state?->label() ?? '—'
+    )
+    ->badge(),
+
+TextColumn::make('payment_method')
+    ->label('Оплата')
+    ->formatStateUsing(
+        fn ($state) => $state?->label() ?? '—'
+    )
+    ->badge(),
+
                 TextColumn::make('payment_status')
                     ->label('Оплата')
                     ->badge(),

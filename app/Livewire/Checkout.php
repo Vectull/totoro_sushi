@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Enums\OrderDeliveryMethod;
+use App\Enums\OrderPaymentMethod;
 use App\Services\CartService;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\Auth;
@@ -10,14 +12,13 @@ use Livewire\Component;
 class Checkout extends Component
 {
     public string $customerName = '';
-
     public string $customerPhone = '';
-
     public string $customerEmail = '';
-
     public string $deliveryAddress = '';
-
     public string $comment = '';
+
+    public string $deliveryMethod = 'courier';
+    public string $paymentMethod = 'cash';
 
     public function mount(CartService $cart): void
     {
@@ -43,23 +44,44 @@ class Checkout extends Component
                 'min:2',
                 'max:255',
             ],
+
             'customerPhone' => [
                 'required',
                 'string',
                 'min:6',
                 'max:32',
             ],
+
             'customerEmail' => [
                 'nullable',
                 'email',
                 'max:255',
             ],
-            'deliveryAddress' => [
+
+            'deliveryMethod' => [
                 'required',
+                'in:' . implode(',', array_column(
+                    OrderDeliveryMethod::cases(),
+                    'value'
+                )),
+            ],
+
+            'paymentMethod' => [
+                'required',
+                'in:' . implode(',', array_column(
+                    OrderPaymentMethod::cases(),
+                    'value'
+                )),
+            ],
+
+            'deliveryAddress' => [
+                'required_if:deliveryMethod,courier',
+                'nullable',
                 'string',
                 'min:5',
                 'max:1000',
             ],
+
             'comment' => [
                 'nullable',
                 'string',
@@ -69,11 +91,17 @@ class Checkout extends Component
 
         $order = $orders->create([
             'user_id' => Auth::id(),
+
             'customer_name' => $this->customerName,
             'customer_phone' => $this->customerPhone,
             'customer_email' => $this->customerEmail ?: null,
-            'delivery_address' => $this->deliveryAddress,
+
+            'delivery_method' => $this->deliveryMethod,
+            'payment_method' => $this->paymentMethod,
+
+            'delivery_address' => $this->deliveryAddress ?: null,
             'comment' => $this->comment ?: null,
+
             'delivery_cost' => 0,
             'discount' => 0,
         ]);
