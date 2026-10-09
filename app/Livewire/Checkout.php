@@ -33,6 +33,16 @@ class Checkout extends Component
         }
     }
 
+
+    public function updatedDeliveryMethod(string $value): void
+{
+    $this->resetValidation('deliveryAddress');
+
+    if ($value === 'pickup') {
+        $this->deliveryAddress = '';
+    }
+}
+
     public function createOrder(
         OrderService $orders,
         CartService $cart

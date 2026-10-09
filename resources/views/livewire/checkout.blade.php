@@ -181,87 +181,92 @@
                 </section>
             @endif
 
-            {{-- Способ оплаты --}}
-            <section class="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+            
+{{-- Способ оплаты --}}
+<section class="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
 
-                <h2 class="text-xl font-black text-stone-900">
-                    Способ оплаты
-                </h2>
+    <h2 class="text-xl font-black text-stone-900">
+        Способ оплаты
+    </h2>
 
-                <div class="mt-5 grid gap-3 sm:grid-cols-3">
+    <div class="mt-5 grid gap-3 sm:grid-cols-3">
 
-                    <label class="cursor-pointer">
-                        <input
-                            type="radio"
-                            wire:model="paymentMethod"
-                            value="cash"
-                            class="peer sr-only"
-                        >
+        {{-- Наличными --}}
+        <label class="cursor-pointer">
+            <input
+                type="radio"
+                wire:model="paymentMethod"
+                value="cash"
+                class="peer sr-only"
+            >
 
-                        <span class="block rounded-2xl border border-stone-200 bg-white p-4 transition hover:border-stone-300 peer-checked:border-emerald-700 peer-checked:bg-emerald-50">
-                            <span class="block font-bold text-stone-900">
-                                💵 Наличными
-                            </span>
+            <span class="block h-full rounded-2xl border border-stone-200 bg-white p-4 transition hover:border-stone-300 peer-checked:border-emerald-700 peer-checked:bg-emerald-50">
+                <span class="block font-bold text-stone-900">
+                    💵 Наличными
+                </span>
 
-                            <span class="mt-1 block text-sm text-stone-500">
-                                Курьеру
-                            </span>
-                        </span>
-                    </label>
+                <span class="mt-1 block text-sm text-stone-500">
+                    {{ $deliveryMethod === 'courier' ? 'Курьеру' : 'При получении' }}
+                </span>
+            </span>
+        </label>
 
-                    <label class="cursor-pointer">
-                        <input
-                            type="radio"
-                            wire:model="paymentMethod"
-                            value="card_on_delivery"
-                            class="peer sr-only"
-                        >
+        {{-- Картой при получении --}}
+        <label class="cursor-pointer">
+            <input
+                type="radio"
+                wire:model="paymentMethod"
+                value="card_on_delivery"
+                class="peer sr-only"
+            >
 
-                        <span class="block rounded-2xl border border-stone-200 bg-white p-4 transition hover:border-stone-300 peer-checked:border-emerald-700 peer-checked:bg-emerald-50">
-                            <span class="block font-bold text-stone-900">
-                                💳 Картой
-                            </span>
+            <span class="block h-full rounded-2xl border border-stone-200 bg-white p-4 transition hover:border-stone-300 peer-checked:border-emerald-700 peer-checked:bg-emerald-50">
+                <span class="block font-bold text-stone-900">
+                    💳 Картой
+                </span>
 
-                            <span class="mt-1 block text-sm text-stone-500">
-                                Курьеру
-                            </span>
-                        </span>
-                    </label>
+                <span class="mt-1 block text-sm text-stone-500">
+                    {{ $deliveryMethod === 'courier' ? 'Курьеру' : 'При получении' }}
+                </span>
+            </span>
+        </label>
 
-                    <label class="cursor-pointer">
-                        <input
-                            type="radio"
-                            wire:model="paymentMethod"
-                            value="online"
-                            class="peer sr-only"
-                        >
+            <label class="cursor-pointer">
+                <input
+                    type="radio"
+                    wire:model="paymentMethod"
+                    value="online"
+                    class="peer sr-only"
+                >
 
-                        <span class="block rounded-2xl border border-stone-200 bg-white p-4 transition hover:border-stone-300 peer-checked:border-emerald-700 peer-checked:bg-emerald-50">
-                            <span class="block font-bold text-stone-900">
-                                🌐 Онлайн
-                            </span>
+                <span class="block h-full rounded-2xl border border-stone-200 bg-white p-4 transition hover:border-stone-300 peer-checked:border-emerald-700 peer-checked:bg-emerald-50">
+                    <span class="block font-bold text-stone-900">
+                        🌐 Онлайн
+                    </span>
 
-                            <span class="mt-1 block text-sm text-stone-500">
-                                На сайте
-                            </span>
-                        </span>
-                    </label>
+                    <span class="mt-1 block text-sm text-stone-500">
+                        На сайте
+                    </span>
+                </span>
+            </label>
+        
 
-                </div>
+    </div>
 
-                @error('paymentMethod')
-                    <p class="mt-2 text-sm text-rose-600">
-                        {{ $message }}
-                    </p>
-                @enderror
+    @error('paymentMethod')
+        <p class="mt-2 text-sm text-rose-600">
+            {{ $message }}
+        </p>
+    @enderror
 
-                @if ($paymentMethod === 'online')
-                    <div class="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-5 text-amber-800">
-                        Онлайн-оплата пока не подключена. На этом этапе заказ будет создан без проведения платежа.
-                    </div>
-                @endif
+    @if ($paymentMethod === 'online')
+        <div class="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-5 text-amber-800">
+            Онлайн-оплата пока не подключена. Заказ будет создан без проведения платежа.
+        </div>
+    @endif
 
-            </section>
+</section>
+
 
             {{-- Комментарий --}}
             <section class="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
