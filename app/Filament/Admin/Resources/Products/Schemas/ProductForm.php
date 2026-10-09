@@ -2,6 +2,8 @@
 
 namespace App\Filament\Admin\Resources\Products\Schemas;
 
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
@@ -79,6 +81,41 @@ class ProductForm
 
                 Toggle::make('is_promotion')
                     ->label('Акция'),
+
+                Repeater::make('images')
+                    ->label('Фотографии товара')
+                    ->relationship()
+                    ->schema([
+                        FileUpload::make('path')
+                            ->label('Фотография')
+                            ->image()
+                            ->disk('public')
+                            ->directory('products')
+                            ->visibility('public')
+                            ->required()
+                            ->columnSpanFull(),
+
+                        TextInput::make('alt')
+                            ->label('Описание фотографии')
+                            ->maxLength(255),
+
+                        TextInput::make('sort_order')
+                            ->label('Порядок сортировки')
+                            ->numeric()
+                            ->integer()
+                            ->minValue(0)
+                            ->default(0)
+                            ->required(),
+
+                        Toggle::make('is_main')
+                            ->label('Главная фотография')
+                            ->default(false),
+                    ])
+                    ->columns(2)
+                    ->defaultItems(0)
+                    ->reorderable()
+                    ->collapsible()
+                    ->columnSpanFull(),
 
                 TagsInput::make('labels')
                     ->label('Метки')
