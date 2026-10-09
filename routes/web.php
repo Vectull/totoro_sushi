@@ -7,9 +7,13 @@ use App\Livewire\Katalog\ProductShow;
 use App\Livewire\OrderShow;
 use App\Livewire\Checkout;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Contacts;
 
 Route::get('/', Home::class)
     ->name('home');
+
+Route::get('/contacts', Contacts::class)
+    ->name('contacts');
 
 Route::get('/catalog', ProductCatalog::class)
     ->name('catalog');

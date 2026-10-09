@@ -38,13 +38,21 @@
                 Меню
             </a>
 
-            <span class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-400">
-                Доставка
-            </span>
+            <a
+    href="{{ route('checkout') }}"
+    wire:navigate
+    class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900"
+>
+    Доставка
+</a>
 
-            <span class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-400">
-                Контакты
-            </span>
+<a
+    href="{{ route('contacts') }}"
+    wire:navigate
+    class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900"
+>
+    Контакты
+</a>
         </nav>
 
         <div class="flex items-center gap-2">

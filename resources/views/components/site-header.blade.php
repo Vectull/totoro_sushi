@@ -9,19 +9,26 @@
         </a>
 
         <nav class="hidden items-center gap-1 md:flex">
-            <a href="{{ route('home') }}" class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
-                Главная
-            </a>
-            <a href="{{ route('catalog') }}" class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
-                Меню
-            </a>
-            <a href="#" class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
-                Доставка
-            </a>
-            <a href="#" class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
-                Контакты
-            </a>
-        </nav>
+    <a href="{{ route('home') }}"
+        class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
+        Главная
+    </a>
+
+    <a href="{{ route('catalog') }}"
+        class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
+        Меню
+    </a>
+
+    <a href="{{ route('checkout') }}"
+        class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
+        Доставка
+    </a>
+
+    <a href="{{ route('contacts') }}"
+        class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900">
+        Контакты
+    </a>
+</nav>
 
         <div class="flex items-center gap-2">
             <button type="button" class="hidden rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-stone-700 ring-1 ring-stone-200 sm:block">
