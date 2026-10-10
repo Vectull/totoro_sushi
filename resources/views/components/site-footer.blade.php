@@ -5,25 +5,26 @@
 
             <div>
                 <div class="flex items-center gap-3">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-800 text-xl">
-                        🍣
-                    </span>
+                    <img
+                        src="{{ asset('totoro.jpg') }}"
+                        alt="Totoro sushi"
+                        class="h-10 w-10 rounded-xl object-cover shadow-sm"
+                    >
 
                     <div>
                         <div class="font-black text-white">
-                            {{ config('app.name') }}
+                            Totoro sushi
                         </div>
 
                         <div class="text-xs font-bold uppercase tracking-[0.16em] text-emerald-400">
-                            sushi market
+                            Суши · Роллы · Сеты
                         </div>
                     </div>
                 </div>
 
                 <p class="mt-4 max-w-sm text-sm leading-6 text-stone-400">
                     Заказывайте любимые блюда онлайн.
-                    Информация о доставке и контактах будет добавлена
-                    после согласования.
+                    Выбирайте роллы, суши и сеты в нашем меню.
                 </p>
             </div>
 
@@ -65,16 +66,15 @@
                 </h2>
 
                 <p class="mt-4 text-sm leading-6 text-stone-400">
-                    Условия доставки, способы оплаты,
-                    контакты и другая информация будут
-                    добавлены после согласования.
+                    Условия доставки, способы оплаты и контакты
+                    смотрите в соответствующих разделах сайта.
                 </p>
             </div>
 
         </div>
 
         <div class="mt-10 border-t border-stone-700 pt-5 text-sm text-stone-500">
-            © {{ now()->year }} {{ config('app.name') }}
+            © {{ now()->year }} Totoro sushi
         </div>
 
     </div>

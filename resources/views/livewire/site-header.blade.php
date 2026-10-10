@@ -6,17 +6,19 @@
             wire:navigate
             class="flex items-center gap-3"
         >
-            <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-900 text-2xl shadow-sm">
-                🍣
-            </span>
+            <img
+                src="{{ asset('totoro.jpg') }}"
+                alt="Totoro sushi"
+                class="h-11 w-11 rounded-2xl object-cover shadow-sm"
+            >
 
             <span>
                 <span class="block text-lg font-black leading-none text-stone-900">
-                    {{ config('app.name') }}
+                    Totoro sushi
                 </span>
 
                 <span class="mt-1 block text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-700">
-                    sushi market
+                    Суши · Роллы · Сеты
                 </span>
             </span>
         </a>
@@ -39,20 +41,20 @@
             </a>
 
             <a
-    href="{{ route('checkout') }}"
-    wire:navigate
-    class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900"
->
-    Доставка
-</a>
+                href="{{ route('checkout') }}"
+                wire:navigate
+                class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900"
+            >
+                Доставка
+            </a>
 
-<a
-    href="{{ route('contacts') }}"
-    wire:navigate
-    class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900"
->
-    Контакты
-</a>
+            <a
+                href="{{ route('contacts') }}"
+                wire:navigate
+                class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900"
+            >
+                Контакты
+            </a>
         </nav>
 
         <div class="flex items-center gap-2">
