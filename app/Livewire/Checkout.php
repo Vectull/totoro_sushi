@@ -33,15 +33,14 @@ class Checkout extends Component
         }
     }
 
-
     public function updatedDeliveryMethod(string $value): void
-{
-    $this->resetValidation('deliveryAddress');
+    {
+        $this->resetValidation('deliveryAddress');
 
-    if ($value === 'pickup') {
-        $this->deliveryAddress = '';
+        if ($value === 'pickup') {
+            $this->deliveryAddress = '';
+        }
     }
-}
 
     public function createOrder(
         OrderService $orders,
@@ -54,20 +53,17 @@ class Checkout extends Component
                 'min:2',
                 'max:255',
             ],
-
             'customerPhone' => [
                 'required',
                 'string',
                 'min:6',
                 'max:32',
             ],
-
             'customerEmail' => [
                 'nullable',
                 'email',
                 'max:255',
             ],
-
             'deliveryMethod' => [
                 'required',
                 'in:' . implode(',', array_column(
@@ -75,7 +71,6 @@ class Checkout extends Component
                     'value'
                 )),
             ],
-
             'paymentMethod' => [
                 'required',
                 'in:' . implode(',', array_column(
@@ -83,7 +78,6 @@ class Checkout extends Component
                     'value'
                 )),
             ],
-
             'deliveryAddress' => [
                 'required_if:deliveryMethod,courier',
                 'nullable',
@@ -91,7 +85,6 @@ class Checkout extends Component
                 'min:5',
                 'max:1000',
             ],
-
             'comment' => [
                 'nullable',
                 'string',
@@ -116,17 +109,25 @@ class Checkout extends Component
             'discount' => 0,
         ]);
 
+        // Запоминаем последний заказ для кнопки отслеживания.
+        session([
+            'last_order_id' => $order->id,
+            'last_order_token' => $order->user_id === null
+                ? $order->tracking_token
+                : null,
+        ]);
+
         $this->dispatch('cart-updated');
 
         $this->redirectRoute(
-'order.show',
-array_filter([
-'order' => $order->id,
-'token' => $order->user_id === null
-? $order->tracking_token
-: null,
-], fn ($value) => $value !== null)
-);
+            'order.show',
+            array_filter([
+                'order' => $order->id,
+                'token' => $order->user_id === null
+                    ? $order->tracking_token
+                    : null,
+            ], fn ($value) => $value !== null)
+        );
     }
 
     public function render(CartService $cart)

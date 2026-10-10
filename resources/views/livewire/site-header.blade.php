@@ -40,13 +40,13 @@
                 Меню
             </a>
 
-            <a
+            {{--<a
                 href="{{ route('checkout') }}"
                 wire:navigate
                 class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900"
             >
                 Доставка
-            </a>
+            </a>--}}
 
             <a
                 href="{{ route('contacts') }}"
@@ -58,6 +58,19 @@
         </nav>
 
         <div class="flex items-center gap-2">
+
+        @if (session('last_order_id') && (session('last_order_token') || auth()->check()))
+    <a
+        href="{{ route('order.show', array_filter([
+            'order' => session('last_order_id'),
+            'token' => session('last_order_token'),
+        ], fn ($value) => $value !== null)) }}"
+        wire:navigate
+        class="rounded-xl bg-amber-100 px-3 py-2.5 text-sm font-bold text-amber-900 transition hover:bg-amber-200"
+    >
+        📦 Отследить заказ
+    </a>
+@endif
 
             <button
                 type="button"
