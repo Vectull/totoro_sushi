@@ -131,8 +131,8 @@
             </div>
 
             <div class="flex flex-col gap-3 sm:flex-row md:justify-end">
-                <a href="https://delivery.restik.com/su-shi68"
-                    target="_blank"
+                <a href="{{ route('catalog') }}"
+                    
                     rel="noopener noreferrer"
                     class="inline-flex items-center justify-center rounded-xl bg-rose-600 px-6 py-3 font-semibold text-white transition hover:bg-rose-700">
                     Перейти к заказу

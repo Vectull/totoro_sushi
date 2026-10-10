@@ -27,5 +27,5 @@ Route::get('/cart', Cart::class)
 Route::get('/checkout', Checkout::class)
     ->name('checkout');
 
-Route::get('/orders/{order}', OrderShow::class)
-    ->name('order.show');
+Route::get('/orders/{order}/{token?}', OrderShow::class)
+->name('order.show');

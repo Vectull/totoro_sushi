@@ -119,9 +119,14 @@ class Checkout extends Component
         $this->dispatch('cart-updated');
 
         $this->redirectRoute(
-            'order.show',
-            ['order' => $order->id]
-        );
+'order.show',
+array_filter([
+'order' => $order->id,
+'token' => $order->user_id === null
+? $order->tracking_token
+: null,
+], fn ($value) => $value !== null)
+);
     }
 
     public function render(CartService $cart)

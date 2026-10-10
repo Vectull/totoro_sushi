@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
+use Illuminate\Support\Str;
 
 class OrderService
 {
@@ -30,6 +31,7 @@ class OrderService
 
             $order = new Order();
 
+            $order->tracking_token = Str::random(64);
             $order->user_id = $customerData['user_id'] ?? null;
             $order->status = OrderStatus::Preparing;
             $order->payment_status = 'pending';

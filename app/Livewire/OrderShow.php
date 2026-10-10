@@ -10,18 +10,30 @@ class OrderShow extends Component
 {
     public Order $order;
 
-    public function mount(Order $order): void
+    public function mount(Order $order, ?string $token = null): void
     {
-        $order->load('items');
-
-        if (
-            $order->user_id !== null &&
-            $order->user_id !== Auth::id()
-        ) {
-            abort(404);
+        if ($order->user_id !== null) {
+            // Заказ авторизованного пользователя доступен только владельцу.
+            if (! Auth::check() || $order->user_id !== Auth::id()) {
+                abort(404);
+            }
+        } else {
+            // Гостевой заказ доступен только по секретному токену.
+            if (
+                ! is_string($order->tracking_token) ||
+                ! is_string($token) ||
+                ! hash_equals($order->tracking_token, $token)
+            ) {
+                abort(404);
+            }
         }
 
-        $this->order = $order;
+        $this->order = $order->load('items');
+    }
+
+    public function refreshOrder(): void
+    {
+        $this->order->refresh()->load('items');
     }
 
     public function render()
