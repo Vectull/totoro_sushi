@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\Modifier;
 use Illuminate\Support\Facades\Session;
 use InvalidArgumentException;
 
@@ -47,6 +48,17 @@ class CartService
                     $item->modifier->slug !== 'chopsticks'
             )
             ->keyBy('modifier_id');
+
+        if ($allowedModifiers->isEmpty()) {
+            $allowedModifiers = Modifier::query()
+                ->where('is_active', true)
+                ->where('slug', '!=', 'chopsticks')
+                ->get()
+                ->keyBy('id')
+                ->map(fn (Modifier $modifier) => (object) [
+                    'modifier' => $modifier,
+                ]);
+        }
 
         $modifierIds = collect($modifierIds)
             ->map(fn ($id) => (int) $id)

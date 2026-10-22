@@ -3,7 +3,10 @@
 namespace App\Livewire\Katalog;
 
 use App\Models\Category;
+use App\Models\Modifier;
 use App\Models\Product;
+use App\Models\ProductModifier;
+use App\Models\PromotionBanner;
 use App\Services\CartService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -23,12 +26,28 @@ class ProductCatalog extends Component
 
     public function nextBanner(): void
     {
-        $this->bannerIndex++;
+        $count = $this->carouselItemCount();
+        if ($count < 2) {
+            $this->bannerIndex = 0;
+
+            return;
+        }
+
+        $currentIndex = (($this->bannerIndex % $count) + $count) % $count;
+        $this->bannerIndex = ($currentIndex + 1) % $count;
     }
 
     public function previousBanner(): void
     {
-        $this->bannerIndex--;
+        $count = $this->carouselItemCount();
+        if ($count < 2) {
+            $this->bannerIndex = 0;
+
+            return;
+        }
+
+        $currentIndex = (($this->bannerIndex % $count) + $count) % $count;
+        $this->bannerIndex = ($currentIndex - 1 + $count) % $count;
     }
 
     public function selectCategory(?int $categoryId): void
@@ -48,6 +67,7 @@ class ProductCatalog extends Component
         $this->selectedProductId = $product->id;
         $this->quantity = 1;
         $this->selectedModifiers = [];
+        $this->dispatch('product-modal-opened');
 
         // Автоматически выбираем обязательные добавки.
         foreach ($product->productModifiers as $item) {
@@ -66,6 +86,7 @@ class ProductCatalog extends Component
         $this->selectedProductId = null;
         $this->quantity = 1;
         $this->selectedModifiers = [];
+        $this->dispatch('product-modal-closed');
     }
 
     public function decreaseQuantity(): void
@@ -110,6 +131,18 @@ class ProductCatalog extends Component
         session()->flash('cart-message', 'Товар добавлен в корзину.');
     }
 
+    private function carouselItemCount(): int
+    {
+        $bannerCount = PromotionBanner::query()->active()->count();
+
+        return $bannerCount > 0
+            ? $bannerCount
+            : Product::query()
+                ->where('is_active', true)
+                ->where('is_promotion', true)
+                ->count();
+    }
+
     public function render()
     {
         $categories = Category::query()
@@ -131,16 +164,30 @@ class ProductCatalog extends Component
             ->latest()
             ->paginate(12);
 
-        $promotions = Product::query()
-            ->where('is_active', true)
-            ->where('is_promotion', true)
-            ->with(['images', 'category'])
-            ->latest()
+        $banners = PromotionBanner::query()
+            ->active()
             ->get();
 
-        $bannerIndex = $promotions->isEmpty()
+        if ($banners->isEmpty()) {
+            $banners = Product::query()
+                ->where('is_active', true)
+                ->where('is_promotion', true)
+                ->with('images')
+                ->latest()
+                ->get()
+                ->map(fn (Product $product) => (object) [
+                    'id' => $product->id,
+                    'title' => $product->name,
+                    'description' => $product->description,
+                    'image_path' => $product->images->first()?->path,
+                    'button_label' => 'Смотреть товар',
+                    'button_url' => route('catalog.product', ['product' => $product->slug]),
+                ]);
+        }
+
+        $bannerIndex = $banners->isEmpty()
             ? 0
-            : (($this->bannerIndex % $promotions->count()) + $promotions->count()) % $promotions->count();
+            : (($this->bannerIndex % $banners->count()) + $banners->count()) % $banners->count();
 
         $selectedProduct = $this->selectedProductId
             ? Product::query()
@@ -153,10 +200,29 @@ class ProductCatalog extends Component
                 ->find($this->selectedProductId)
             : null;
 
+        if ($selectedProduct && $selectedProduct->productModifiers->isEmpty()) {
+            $defaultModifiers = Modifier::query()
+                ->where('is_active', true)
+                ->where('slug', '!=', 'chopsticks')
+                ->orderBy('id')
+                ->get()
+                ->map(function (Modifier $modifier) {
+                    $productModifier = new ProductModifier([
+                        'modifier_id' => $modifier->id,
+                        'is_required' => false,
+                    ]);
+                    $productModifier->setRelation('modifier', $modifier);
+
+                    return $productModifier;
+                });
+
+            $selectedProduct->setRelation('productModifiers', $defaultModifiers);
+        }
+
         return view('livewire.katalog.product-catalog', [
             'categories' => $categories,
             'products' => $products,
-            'promotions' => $promotions,
+            'banners' => $banners,
             'bannerIndex' => $bannerIndex,
             'selectedProduct' => $selectedProduct,
         ])->layout('components.layouts.app', [

@@ -51,6 +51,16 @@
 
         <div class="flex items-center gap-2">
 
+            @auth
+                <span class="hidden max-w-36 truncate text-sm font-semibold text-stone-700 sm:block">{{ auth()->user()->name }}</span>
+                <form method="POST" action="{{ route('logout') }}" class="hidden sm:block">
+                    @csrf
+                    <button type="submit" class="rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-stone-700 ring-1 ring-stone-200 transition hover:bg-stone-100">Выйти</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" wire:navigate class="hidden rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-stone-700 ring-1 ring-stone-200 transition hover:bg-stone-100 sm:inline-flex">Войти</a>
+            @endauth
+
         @if (session('last_order_id') && (session('last_order_token') || auth()->check()))
     <a
         href="{{ route('order.show', array_filter([
@@ -91,6 +101,14 @@
                     <a href="{{ route('home') }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-stone-50">Главная</a>
                     <a href="{{ route('catalog') }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-stone-50">Меню</a>
                     <a href="{{ route('contacts') }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-stone-50">Контакты и доставка</a>
+                    @auth
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full rounded-xl px-4 py-3 text-left text-sm font-bold text-stone-700 hover:bg-stone-50">Выйти из аккаунта</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-stone-50">Войти</a>
+                    @endauth
                     @if (session('last_order_id') && (session('last_order_token') || auth()->check()))
                         <a href="{{ route('order.show', array_filter(['order' => session('last_order_id'), 'token' => session('last_order_token')], fn ($value) => $value !== null)) }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-amber-800 hover:bg-amber-50">Отследить заказ</a>
                     @endif

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class OrderShow extends Component
@@ -14,7 +15,7 @@ class OrderShow extends Component
     {
         if ($order->user_id !== null) {
             // Заказ авторизованного пользователя доступен только владельцу.
-            if (! Auth::check() || $order->user_id !== Auth::id()) {
+            if (! Auth::check() || Gate::denies('view-order', $order)) {
                 abort(404);
             }
         } else {
