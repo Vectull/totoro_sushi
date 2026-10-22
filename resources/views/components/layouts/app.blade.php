@@ -27,6 +27,8 @@
         <meta property="og:image" content="{{ $metaImageUrl }}">
         <meta name="twitter:image" content="{{ $metaImageUrl }}">
     @endif
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('favicon.png') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

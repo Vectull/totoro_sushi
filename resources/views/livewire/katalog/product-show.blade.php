@@ -1,4 +1,10 @@
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    @php
+        $selectedModifiersTotal = $product->productModifiers
+            ->filter(fn ($item) => in_array((int) $item->modifier_id, array_map('intval', $selectedModifiers), true) && $item->modifier?->is_active)
+            ->sum(fn ($item) => (float) $item->modifier->price);
+        $unitPrice = (float) $product->price + $selectedModifiersTotal;
+    @endphp
 
   @if (session()->has('cart_message'))
         <div
@@ -73,7 +79,7 @@
 
             <div class="mt-6">
                 <span class="text-2xl font-bold text-gray-900">
-                    {{ number_format($product->price, 2, ',', ' ') }} ₽
+                    {{ number_format($unitPrice, 2, ',', ' ') }} ₽
                 </span>
 
                 @if ($product->old_price)
@@ -160,7 +166,7 @@
                     wire:click="addToCart"
                     class="w-full rounded-xl bg-emerald-900 px-6 py-4 font-bold text-white transition hover:bg-emerald-800"
                 >
-                    Добавить в корзину
+                    Добавить в корзину · {{ number_format($unitPrice * $quantity, 2, ',', ' ') }} ₽
                 </button>
             </div>
 

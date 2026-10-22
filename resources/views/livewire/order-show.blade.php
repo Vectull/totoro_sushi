@@ -201,6 +201,19 @@
                     </div>
 
                     <div>
+                        <p class="text-sm text-stone-500">Оплата</p>
+                        <p class="mt-1 font-bold text-stone-900">
+                            @if ($order->payment_method?->value === 'cash')
+                                Наличными при получении
+                            @elseif ($order->payment_method?->value === 'card_on_delivery')
+                                Картой при получении
+                            @else
+                                Онлайн на сайте
+                            @endif
+                        </p>
+                    </div>
+
+                    <div>
                         <p class="text-sm text-stone-500">Палочки</p>
                         <p class="mt-1 font-bold text-stone-900">
                             {{ $order->chopsticks_quantity }} шт.
@@ -283,7 +296,11 @@
                 </div>
 
                 <div class="mt-5 rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                    Оплата будет подключена следующим этапом.
+                    @if ($order->payment_method?->value === 'online')
+                        Онлайн-оплата пока не подключена: заказ создан без списания средств. Свяжитесь с нами, чтобы согласовать оплату.
+                    @else
+                        Оплатите заказ при получении выбранным способом.
+                    @endif
                 </div>
             </div>
 

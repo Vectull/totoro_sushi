@@ -34,11 +34,12 @@
                 <div class="mt-6 space-y-5">
 
                     <div>
-                        <label class="text-sm font-bold text-stone-700">
+                        <label for="customer-name" class="text-sm font-bold text-stone-700">
                             Имя
                         </label>
 
                         <input
+                            id="customer-name"
                             type="text"
                             wire:model="customerName"
                             class="mt-2 w-full rounded-2xl border-stone-200 px-4 py-3 focus:border-emerald-700 focus:ring-emerald-700"
@@ -53,11 +54,12 @@
                     </div>
 
                     <div>
-                        <label class="text-sm font-bold text-stone-700">
+                        <label for="customer-phone" class="text-sm font-bold text-stone-700">
                             Телефон
                         </label>
 
                         <input
+                            id="customer-phone"
                             type="tel"
                             wire:model="customerPhone"
                             class="mt-2 w-full rounded-2xl border-stone-200 px-4 py-3 focus:border-emerald-700 focus:ring-emerald-700"
@@ -72,7 +74,7 @@
                     </div>
 
                     <div>
-                        <label class="text-sm font-bold text-stone-700">
+                        <label for="customer-email" class="text-sm font-bold text-stone-700">
                             Email
                             <span class="font-normal text-stone-400">
                                 — необязательно
@@ -80,6 +82,7 @@
                         </label>
 
                         <input
+                            id="customer-email"
                             type="email"
                             wire:model="customerEmail"
                             class="mt-2 w-full rounded-2xl border-stone-200 px-4 py-3 focus:border-emerald-700 focus:ring-emerald-700"
@@ -160,11 +163,12 @@
                     </h2>
 
                     <div class="mt-5">
-                        <label class="text-sm font-bold text-stone-700">
+                        <label for="delivery-address" class="text-sm font-bold text-stone-700">
                             Адрес
                         </label>
 
                         <textarea
+                            id="delivery-address"
                             wire:model="deliveryAddress"
                             rows="3"
                             class="mt-2 w-full rounded-2xl border-stone-200 px-4 py-3 focus:border-emerald-700 focus:ring-emerald-700"
@@ -277,6 +281,7 @@
 
                 <div class="mt-5">
                     <textarea
+                        id="order-comment"
                         wire:model="comment"
                         rows="3"
                         class="w-full rounded-2xl border-stone-200 px-4 py-3 focus:border-emerald-700 focus:ring-emerald-700"
@@ -309,7 +314,10 @@
                         <div class="flex justify-between gap-4 text-sm">
 
                             <span class="text-stone-600">
-                                {{ $item['name'] }} × {{ $item['quantity'] }}
+                                <span class="block">{{ $item['name'] }} × {{ $item['quantity'] }}</span>
+                                @foreach ($item['modifiers'] ?? [] as $modifier)
+                                    <span class="mt-1 block text-xs text-stone-400">{{ $modifier['name'] }}</span>
+                                @endforeach
                             </span>
 
                             <span class="shrink-0 font-bold text-stone-900">
@@ -326,6 +334,16 @@
                 <div class="flex justify-between text-sm text-stone-500">
                     <span>Товары</span>
                     <span>{{ $count }} шт.</span>
+                </div>
+
+                <div class="mt-3 flex justify-between text-sm text-stone-500">
+                    <span>Палочки</span>
+                    <span>{{ $chopsticks }} шт.</span>
+                </div>
+
+                <div class="mt-3 flex justify-between text-sm text-stone-500">
+                    <span>Доставка</span>
+                    <span>0 ₽</span>
                 </div>
 
                 <div class="mt-3 flex items-end justify-between gap-4">

@@ -40,14 +40,6 @@
                 Меню
             </a>
 
-            {{--<a
-                href="{{ route('checkout') }}"
-                wire:navigate
-                class="rounded-xl px-4 py-2.5 text-sm font-bold text-stone-700 transition hover:bg-white hover:text-emerald-900"
-            >
-                Доставка
-            </a>--}}
-
             <a
                 href="{{ route('contacts') }}"
                 wire:navigate
@@ -66,18 +58,11 @@
             'token' => session('last_order_token'),
         ], fn ($value) => $value !== null)) }}"
         wire:navigate
-        class="rounded-xl bg-amber-100 px-3 py-2.5 text-sm font-bold text-amber-900 transition hover:bg-amber-200"
+        class="hidden rounded-xl bg-amber-100 px-3 py-2.5 text-sm font-bold text-amber-900 transition hover:bg-amber-200 sm:inline-flex"
     >
         📦 Отследить заказ
     </a>
 @endif
-
-            <button
-                type="button"
-                class="hidden rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-stone-700 ring-1 ring-stone-200 sm:block"
-            >
-                Войти
-            </button>
 
             <a
                 href="{{ route('cart') }}"
@@ -92,6 +77,25 @@
                     {{ $cartCount > 99 ? '99+' : $cartCount }}
                 </span>
             </a>
+
+            <details class="relative md:hidden">
+                <summary
+                    class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-2xl bg-white text-stone-800 ring-1 ring-stone-200 [&::-webkit-details-marker]:hidden"
+                    aria-label="Открыть меню"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </summary>
+                <nav aria-label="Мобильная навигация" class="absolute right-0 top-14 z-50 flex w-56 flex-col gap-1 rounded-2xl border border-stone-200 bg-white p-2 shadow-xl">
+                    <a href="{{ route('home') }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-stone-50">Главная</a>
+                    <a href="{{ route('catalog') }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-stone-50">Меню</a>
+                    <a href="{{ route('contacts') }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-stone-50">Контакты и доставка</a>
+                    @if (session('last_order_id') && (session('last_order_token') || auth()->check()))
+                        <a href="{{ route('order.show', array_filter(['order' => session('last_order_id'), 'token' => session('last_order_token')], fn ($value) => $value !== null)) }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-amber-800 hover:bg-amber-50">Отследить заказ</a>
+                    @endif
+                </nav>
+            </details>
 
         </div>
     </div>

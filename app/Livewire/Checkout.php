@@ -136,6 +136,7 @@ class Checkout extends Component
             'items' => $cart->items(),
             'total' => $cart->total(),
             'count' => $cart->count(),
+            'chopsticks' => $cart->chopsticks(),
         ])->layout('components.layouts.app', [
             'title' => 'Оформление заказа — ' . config('app.name'),
             'metaDescription' => 'Укажите контактные данные, способ доставки и оплаты заказа.',

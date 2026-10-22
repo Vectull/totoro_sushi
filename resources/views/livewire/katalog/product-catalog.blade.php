@@ -217,6 +217,12 @@
 
         {{-- Модальное окно товара --}}
         @if ($selectedProduct)
+            @php
+                $selectedModifiersTotal = $selectedProduct->productModifiers
+                    ->filter(fn ($item) => in_array((int) $item->modifier_id, array_map('intval', $selectedModifiers), true) && $item->modifier?->is_active)
+                    ->sum(fn ($item) => (float) $item->modifier->price);
+                $selectedUnitPrice = (float) $selectedProduct->price + $selectedModifiersTotal;
+            @endphp
             <div
                 class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
                 wire:click.self="closeProduct"
@@ -337,7 +343,7 @@
         <div class="text-right">
             <p class="text-sm text-gray-500">Цена за штуку</p>
             <p class="mt-1 text-xl font-bold text-gray-900">
-                {{ number_format($selectedProduct->price, 2, ',', ' ') }} ₽
+                {{ number_format($selectedUnitPrice, 2, ',', ' ') }} ₽
             </p>
         </div>
     </div>
@@ -350,7 +356,7 @@
         class="mt-5 flex w-full items-center justify-center rounded-xl bg-emerald-900 px-5 py-4 font-bold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50"
     >
         <span wire:loading.remove wire:target="addToCart">
-            Добавить в корзину · {{ number_format($selectedProduct->price * $quantity, 2, ',', ' ') }} ₽
+            Добавить в корзину · {{ number_format($selectedUnitPrice * $quantity, 2, ',', ' ') }} ₽
         </span>
 
         <span wire:loading wire:target="addToCart">

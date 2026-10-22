@@ -64,7 +64,7 @@
             </p>
 
             <p class="mt-2 text-sm leading-6 text-stone-500">
-                Время работы, указанное в информации о доставке.
+                Принимаем заказы ежедневно с 10:00 до 22:00.
             </p>
         </div>
 
@@ -113,7 +113,7 @@
             </p>
 
             <p class="mt-2 text-sm leading-6 text-stone-500">
-                Доступные способы оплаты уточняйте при оформлении заказа.
+                Наличными или картой при получении. Онлайн-оплата на сайте пока не подключена.
             </p>
         </div>
     </section>
@@ -126,14 +126,13 @@
                 </h2>
 
                 <p class="mt-3 leading-7 text-stone-300">
-                    Перейдите на страницу заказа или свяжитесь с нами по телефону.
+                    Выберите блюда в меню или позвоните нам ежедневно с 10:00 до 22:00.
                 </p>
             </div>
 
             <div class="flex flex-col gap-3 sm:flex-row md:justify-end">
                 <a href="{{ route('catalog') }}"
-                    
-                    rel="noopener noreferrer"
+                    wire:navigate
                     class="inline-flex items-center justify-center rounded-xl bg-rose-600 px-6 py-3 font-semibold text-white transition hover:bg-rose-700">
                     Перейти к заказу
                 </a>
