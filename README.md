@@ -1,59 +1,57 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sushi Market
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Интернет-магазин суши и роллов на Laravel 12, Livewire 3 и Filament 4.
 
-## About Laravel
+## Требования
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP 8.2 или новее с расширениями Laravel и SQLite либо драйвером выбранной БД.
+- Composer.
+- Node.js и npm.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Локальный запуск
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Скопируйте `.env.example` в `.env` и задайте `APP_URL`.
+2. Чтобы создать первого администратора, задайте `INITIAL_ADMIN_EMAIL` и уникальный `INITIAL_ADMIN_PASSWORD` длиной не менее 16 символов. Если эти значения не заданы, сидер не создаёт учётную запись.
+3. Выполните `composer setup`. Команда устанавливает зависимости, генерирует ключ приложения, создаёт SQLite-файл при необходимости, применяет миграции, загружает стартовый каталог, создаёт настроенного администратора, подключает публичное хранилище и собирает фронтенд.
+4. Запустите `composer dev` и откройте адрес, указанный Laravel в консоли.
 
-## Learning Laravel
+Админ-панель доступна по `/admin`. Каталог и дополнительные данные можно менять из неё.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Развёртывание
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+На сервере настройте `.env` до выполнения команд:
 
-## Laravel Sponsors
+- `APP_ENV=production`, `APP_DEBUG=false`, публичный `APP_URL` с HTTPS и случайный `APP_KEY`.
+- Параметры производственной БД. SQLite подходит только для одиночного сервера с постоянным диском и корректными правами на файл.
+- `SESSION_DRIVER`, `CACHE_STORE` и `QUEUE_CONNECTION` с доступными хранилищами. При использовании database-драйверов сначала примените миграции.
+- `FILESYSTEM_DISK=public`, постоянное хранилище для `storage/app/public` и публичную ссылку `public/storage`.
+- Настоящие параметры почты, если приложение будет отправлять письма.
+- Для первого администратора задайте `INITIAL_ADMIN_EMAIL` и сильный `INITIAL_ADMIN_PASSWORD` до первого запуска сидера.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Пример команд для Linux-сервера из корня приложения:
 
-### Premium Partners
+```sh
+composer install --no-dev --optimize-autoloader
+npm ci
+npm run build
+php artisan key:generate
+php artisan migrate --force
+php artisan db:seed --force
+php artisan storage:link
+php artisan optimize
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+`key:generate` запускайте только при первоначальной установке, иначе сменится ключ шифрования и существующие сессии станут недействительными. До миграций сделайте резервную копию рабочей базы. После публикации проверьте HTTPS, доступность `/admin`, загрузку изображения в админке и работу файлов из `public/storage`. Пользователь веб-сервера должен иметь права на запись в `storage` и `bootstrap/cache`.
 
-## Contributing
+## Заказы и оплата
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Оформление заказа поддерживает самовывоз и курьерскую доставку, а также наличные, оплату картой при получении и вариант «онлайн». Онлайн-эквайринг пока не подключён: выбор этого варианта создаёт заказ без списания денег, о чём сообщает форма. Подключите и проверьте платёжного провайдера до включения реальной онлайн-оплаты.
 
-## Code of Conduct
+Гостевой заказ отслеживается по секретному токену в ссылке. Не публикуйте такие ссылки и не пересылайте их посторонним.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Проверки перед выпуском
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Соберите фронтенд: `npm run build`.
+- Проверьте PHP-зависимости и конфигурацию Composer: `composer validate --no-check-publish`.
+- Запустите автоматические проверки проекта: `composer test`.
+- На целевом сервере проверьте миграции на копии производственной базы, вход в админку, создание заказа, выбор доставки и оплаты, загрузку фото и страницу отслеживания.
