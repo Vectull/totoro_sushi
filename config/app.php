@@ -15,6 +15,12 @@ return [
 
     'name' => env('APP_NAME', 'TOTORO SUHI'),
 
+    'initial_admin' => [
+        'name' => env('INITIAL_ADMIN_NAME', 'Администратор'),
+        'email' => env('INITIAL_ADMIN_EMAIL'),
+        'password' => env('INITIAL_ADMIN_PASSWORD'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
