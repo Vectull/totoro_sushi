@@ -8,7 +8,6 @@ use App\Models\Category;
 use App\Models\Modifier;
 use App\Models\Product;
 use App\Models\ProductAttributeValue;
-use App\Models\ProductImage;
 use App\Models\ProductModifier;
 use Illuminate\Database\Seeder;
 
@@ -246,15 +245,6 @@ class StageOneSeeder extends Seeder
                     'labels' => $productData['labels'],
                     'characteristics' => $productData['characteristics'],
                     'allergens' => $productData['allergens'],
-                ]
-            );
-
-            ProductImage::query()->firstOrCreate(
-                ['product_id' => $product->id, 'path' => '/images/products/' . $product->slug . '.jpg'],
-                [
-                    'alt' => $product->name,
-                    'sort_order' => 1,
-                    'is_main' => true,
                 ]
             );
 

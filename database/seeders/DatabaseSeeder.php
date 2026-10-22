@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(StageOneSeeder::class);
+
         $admin = config('app.initial_admin');
         $email = $admin['email'];
         $password = $admin['password'];
