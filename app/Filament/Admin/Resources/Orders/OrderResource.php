@@ -19,6 +19,10 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Заказы';
+
+    protected static ?int $navigationSort = 1;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
 
     protected static ?string $recordTitleAttribute = 'id';

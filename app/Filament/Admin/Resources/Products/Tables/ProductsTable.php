@@ -10,6 +10,7 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -27,7 +28,8 @@ class ProductsTable
                     ->searchable(),
                 TextColumn::make('slug')
                     ->label('URL-имя')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('price')
                     ->label('Цена')
                     ->money()
@@ -35,27 +37,33 @@ class ProductsTable
                 TextColumn::make('old_price')
                     ->label('Старая цена')
                     ->money()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('discount_percent')
                     ->label('Скидка, %')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('weight')
                     ->label('Вес, г')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('pieces')
                     ->label('Количество, шт.')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('is_active')
                     ->label('Активен')
                     ->boolean(),
                 IconColumn::make('is_popular')
                     ->label('Популярный')
-                    ->boolean(),
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('is_new')
                     ->label('Новинка')
-                    ->boolean(),
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('is_promotion')
                     ->label('Акция')
                     ->boolean(),
@@ -76,8 +84,26 @@ class ProductsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('category')
+                    ->relationship('category', 'name')
+                    ->label('Категория')
+                    ->searchable()
+                    ->preload(),
+                SelectFilter::make('is_active')
+                    ->label('Публикация')
+                    ->options([
+                        1 => 'Активные',
+                        0 => 'Скрытые',
+                    ]),
+                SelectFilter::make('is_promotion')
+                    ->label('Акции')
+                    ->options([
+                        1 => 'По акции',
+                        0 => 'Без акции',
+                    ]),
                 TrashedFilter::make(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),

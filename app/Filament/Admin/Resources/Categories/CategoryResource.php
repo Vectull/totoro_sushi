@@ -22,6 +22,10 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Каталог';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $navigationLabel = 'Категории';
 
     protected static ?string $modelLabel = 'категория';

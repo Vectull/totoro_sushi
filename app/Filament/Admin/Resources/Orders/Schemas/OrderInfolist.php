@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Orders\Schemas;
 
+use App\Models\Order;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -60,15 +61,18 @@ class OrderInfolist
                             ->label('Имя'),
 
                         TextEntry::make('customer_phone')
-                            ->label('Телефон'),
+                            ->label('Телефон')
+                            ->url(fn (Order $record): string => 'tel:' . $record->customer_phone),
 
                         TextEntry::make('customer_email')
                             ->label('Email')
                             ->placeholder('Не указан'),
 
                         TextEntry::make('delivery_address')
-                            ->label('Адрес доставки')
-                            ->placeholder('Не указан'),
+                            ->label('Адрес')
+                            ->placeholder(fn (Order $record): string => $record->delivery_method?->value === 'pickup'
+                                ? 'Самовывоз'
+                                : 'Не указан'),
 
                         TextEntry::make('comment')
                             ->label('Комментарий')
