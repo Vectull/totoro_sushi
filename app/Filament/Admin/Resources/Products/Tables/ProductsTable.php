@@ -20,42 +20,57 @@ class ProductsTable
         return $table
             ->columns([
                 TextColumn::make('category.name')
+                    ->label('Категория')
                     ->searchable(),
                 TextColumn::make('name')
+                    ->label('Название')
                     ->searchable(),
                 TextColumn::make('slug')
+                    ->label('URL-имя')
                     ->searchable(),
                 TextColumn::make('price')
+                    ->label('Цена')
                     ->money()
                     ->sortable(),
                 TextColumn::make('old_price')
+                    ->label('Старая цена')
                     ->money()
                     ->sortable(),
                 TextColumn::make('discount_percent')
+                    ->label('Скидка, %')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('weight')
+                    ->label('Вес, г')
                     ->searchable(),
                 TextColumn::make('pieces')
+                    ->label('Количество, шт.')
                     ->numeric()
                     ->sortable(),
                 IconColumn::make('is_active')
+                    ->label('Активен')
                     ->boolean(),
                 IconColumn::make('is_popular')
+                    ->label('Популярный')
                     ->boolean(),
                 IconColumn::make('is_new')
+                    ->label('Новинка')
                     ->boolean(),
                 IconColumn::make('is_promotion')
+                    ->label('Акция')
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label('Создан')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Обновлён')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
+                    ->label('Удалён')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

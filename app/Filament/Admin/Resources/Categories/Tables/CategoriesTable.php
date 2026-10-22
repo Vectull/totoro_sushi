@@ -20,25 +20,33 @@ class CategoriesTable
         return $table
             ->columns([
                 TextColumn::make('parent.name')
+                    ->label('Родительская категория')
                     ->searchable(),
                 TextColumn::make('name')
+                    ->label('Название')
                     ->searchable(),
                 TextColumn::make('slug')
+                    ->label('URL-имя')
                     ->searchable(),
                 IconColumn::make('is_active')
+                    ->label('Активна')
                     ->boolean(),
                 TextColumn::make('sort_order')
+                    ->label('Порядок сортировки')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label('Создана')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Обновлена')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
+                    ->label('Удалена')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

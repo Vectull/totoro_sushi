@@ -61,10 +61,31 @@
                         <input
                             id="customer-phone"
                             type="tel"
+                            inputmode="tel"
+                            autocomplete="tel"
+                            maxlength="18"
+                            pattern="\+7 \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}"
+                            title="Введите номер в формате +7 (999) 123-45-67"
+                            required
+                            x-on:input="
+                                let digits = $event.target.value.replace(/\D/g, '');
+                                if (digits.startsWith('7') || digits.startsWith('8')) digits = digits.slice(1);
+                                digits = digits.slice(0, 10);
+                                let formatted = '+7';
+                                if (digits.length) formatted += ' (' + digits.slice(0, 3);
+                                if (digits.length >= 3) formatted += ')';
+                                if (digits.length > 3) formatted += ' ' + digits.slice(3, 6);
+                                if (digits.length > 6) formatted += '-' + digits.slice(6, 8);
+                                if (digits.length > 8) formatted += '-' + digits.slice(8, 10);
+                                $event.target.value = formatted;
+                                $event.target.setSelectionRange(formatted.length, formatted.length);
+                            "
                             wire:model="customerPhone"
                             class="mt-2 w-full rounded-2xl border-stone-200 px-4 py-3 focus:border-emerald-700 focus:ring-emerald-700"
-                            placeholder="+7 900 000-00-00"
+                            placeholder="+7 (999) 123-45-67"
                         >
+
+                        <p class="mt-1 text-xs text-stone-500">10 цифр после кода +7.</p>
 
                         @error('customerPhone')
                             <p class="mt-1 text-sm text-rose-600">
@@ -86,7 +107,7 @@
                             type="email"
                             wire:model="customerEmail"
                             class="mt-2 w-full rounded-2xl border-stone-200 px-4 py-3 focus:border-emerald-700 focus:ring-emerald-700"
-                            placeholder="you@example.com"
+                            placeholder="name@example.ru"
                         >
 
                         @error('customerEmail')

@@ -17,25 +17,33 @@ class CategoryForm
             ->components([
                 Select::make('parent_id')
                     ->relationship('parent', 'name')
+                    ->label('Родительская категория')
+                    ->placeholder('Без родительской категории')
                     ->default(null),
                 TextInput::make('name')
+                    ->label('Название')
                     ->required(),
                 TextInput::make('slug')
+                    ->label('URL-имя')
+                    ->helperText('Латиницей. Используется в адресе страницы категории.')
                     ->required(),
                 Textarea::make('description')
+                    ->label('Описание')
                     ->default(null)
                     ->columnSpanFull(),
                 FileUpload::make('image')
-    ->label('Фотография категории')
-    ->image()
-    ->disk('public')
-    ->directory('categories')
-    ->visibility('public')
-    ->imagePreviewHeight('250')
-    ->maxSize(5120),
+                    ->label('Фото категории')
+                    ->image()
+                    ->disk('public')
+                    ->directory('categories')
+                    ->visibility('public')
+                    ->imagePreviewHeight('250')
+                    ->maxSize(5120),
                 Toggle::make('is_active')
+                    ->label('Активна')
                     ->required(),
                 TextInput::make('sort_order')
+                    ->label('Порядок сортировки')
                     ->required()
                     ->numeric()
                     ->default(0),

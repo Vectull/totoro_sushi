@@ -20,7 +20,7 @@ class ModifiersTable
                     ->sortable(),
 
                 TextColumn::make('slug')
-                    ->label('Код')
+                    ->label('Системный код')
                     ->searchable(),
 
                 TextColumn::make('price')

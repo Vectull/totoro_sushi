@@ -28,7 +28,14 @@ class OrderInfolist
                             ),
 
                         TextEntry::make('payment_status')
-                            ->label('Статус оплаты'),
+                            ->label('Статус оплаты')
+                            ->formatStateUsing(fn (?string $state): string => match ($state) {
+                                'pending' => 'Ожидает оплаты',
+                                'paid' => 'Оплачен',
+                                'failed' => 'Ошибка оплаты',
+                                'refunded' => 'Возвращён',
+                                default => $state ?? '—',
+                            }),
 
                         TextEntry::make('delivery_method')
                             ->label('Способ получения')

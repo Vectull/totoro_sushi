@@ -14,24 +14,30 @@ class CategoryInfolist
         return $schema
             ->components([
                 TextEntry::make('parent.name')
-                    ->label('Parent')
+                    ->label('Родительская категория')
                     ->placeholder('-'),
-                TextEntry::make('name'),
-                TextEntry::make('slug'),
+                TextEntry::make('name')->label('Название'),
+                TextEntry::make('slug')->label('URL-имя'),
                 TextEntry::make('description')
+                    ->label('Описание')
                     ->placeholder('-')
                     ->columnSpanFull(),
                 IconEntry::make('is_active')
+                    ->label('Активна')
                     ->boolean(),
                 TextEntry::make('sort_order')
+                    ->label('Порядок сортировки')
                     ->numeric(),
                 TextEntry::make('created_at')
+                    ->label('Создана')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
+                    ->label('Обновлена')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('deleted_at')
+                    ->label('Удалена')
                     ->dateTime()
                     ->visible(fn (Category $record): bool => $record->trashed()),
             ]);

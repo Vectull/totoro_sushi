@@ -11,8 +11,8 @@ enum OrderPaymentMethod: string
     public function label(): string
     {
         return match ($this) {
-            self::Cash => 'Курьеру наличными',
-            self::CardOnDelivery => 'Курьеру картой',
+            self::Cash => 'Наличными при получении',
+            self::CardOnDelivery => 'Картой при получении',
             self::Online => 'Онлайн на сайте',
         };
     }

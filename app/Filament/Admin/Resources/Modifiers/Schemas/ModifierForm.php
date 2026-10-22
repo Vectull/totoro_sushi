@@ -17,7 +17,8 @@ class ModifierForm
                 ->maxLength(255),
 
             TextInput::make('slug')
-                ->label('Код')
+                ->label('Системный код')
+                ->helperText('Латиницей. Используется для настройки добавки.')
                 ->required()
                 ->maxLength(255)
                 ->unique(ignoreRecord: true),

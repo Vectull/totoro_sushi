@@ -31,7 +31,8 @@ class ProductForm
                     ->maxLength(255),
 
                 TextInput::make('slug')
-                    ->label('Slug')
+                    ->label('URL-имя')
+                    ->helperText('Латиницей. Используется в адресе страницы товара.')
                     ->required()
                     ->maxLength(255),
 

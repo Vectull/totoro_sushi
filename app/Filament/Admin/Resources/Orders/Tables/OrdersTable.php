@@ -35,22 +35,29 @@ class OrdersTable
                         fn (OrderStatus $state) => $state->label()
                     ),
 
-                    TextColumn::make('delivery_method')
-    ->label('Получение')
-    ->formatStateUsing(
-        fn ($state) => $state?->label() ?? '—'
-    )
-    ->badge(),
+                TextColumn::make('delivery_method')
+                    ->label('Получение')
+                    ->formatStateUsing(
+                        fn ($state) => $state?->label() ?? '—'
+                    )
+                    ->badge(),
 
-TextColumn::make('payment_method')
-    ->label('Оплата')
-    ->formatStateUsing(
-        fn ($state) => $state?->label() ?? '—'
-    )
-    ->badge(),
+                TextColumn::make('payment_method')
+                    ->label('Способ оплаты')
+                    ->formatStateUsing(
+                        fn ($state) => $state?->label() ?? '—'
+                    )
+                    ->badge(),
 
                 TextColumn::make('payment_status')
-                    ->label('Оплата')
+                    ->label('Статус оплаты')
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'pending' => 'Ожидает оплаты',
+                        'paid' => 'Оплачен',
+                        'failed' => 'Ошибка оплаты',
+                        'refunded' => 'Возвращён',
+                        default => $state ?? '—',
+                    })
                     ->badge(),
 
                 TextColumn::make('chopsticks_quantity')

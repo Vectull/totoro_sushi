@@ -12,7 +12,7 @@ use Livewire\Component;
 class Checkout extends Component
 {
     public string $customerName = '';
-    public string $customerPhone = '';
+    public string $customerPhone = '+7';
     public string $customerEmail = '';
     public string $deliveryAddress = '';
     public string $comment = '';
@@ -56,8 +56,7 @@ class Checkout extends Component
             'customerPhone' => [
                 'required',
                 'string',
-                'min:6',
-                'max:32',
+                'regex:/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/',
             ],
             'customerEmail' => [
                 'nullable',
@@ -90,6 +89,8 @@ class Checkout extends Component
                 'string',
                 'max:1000',
             ],
+        ], [
+            'customerPhone.regex' => 'Введите российский номер в формате +7 (999) 123-45-67.',
         ]);
 
         $order = $orders->create([
