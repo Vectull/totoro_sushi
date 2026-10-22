@@ -39,6 +39,11 @@ class OrderShow extends Component
     public function render()
     {
         return view('livewire.order-show')
-            ->layout('components.layouts.app');
+            ->layout('components.layouts.app', [
+                'title' => 'Заказ №' . $this->order->id . ' — ' . config('app.name'),
+                'metaDescription' => 'Статус и состав заказа.',
+                'metaRobots' => 'noindex, nofollow',
+                'canonicalUrl' => route('home'),
+            ]);
     }
 }

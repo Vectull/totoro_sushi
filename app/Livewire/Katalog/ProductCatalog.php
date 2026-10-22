@@ -19,6 +19,17 @@ class ProductCatalog extends Component
     public ?int $selectedProductId = null;
     public int $quantity = 1;
     public array $selectedModifiers = [];
+    public int $bannerIndex = 0;
+
+    public function nextBanner(): void
+    {
+        $this->bannerIndex++;
+    }
+
+    public function previousBanner(): void
+    {
+        $this->bannerIndex--;
+    }
 
     public function selectCategory(?int $categoryId): void
     {
@@ -120,6 +131,17 @@ class ProductCatalog extends Component
             ->latest()
             ->paginate(12);
 
+        $promotions = Product::query()
+            ->where('is_active', true)
+            ->where('is_promotion', true)
+            ->with(['images', 'category'])
+            ->latest()
+            ->get();
+
+        $bannerIndex = $promotions->isEmpty()
+            ? 0
+            : (($this->bannerIndex % $promotions->count()) + $promotions->count()) % $promotions->count();
+
         $selectedProduct = $this->selectedProductId
             ? Product::query()
                 ->where('is_active', true)
@@ -134,7 +156,12 @@ class ProductCatalog extends Component
         return view('livewire.katalog.product-catalog', [
             'categories' => $categories,
             'products' => $products,
+            'promotions' => $promotions,
+            'bannerIndex' => $bannerIndex,
             'selectedProduct' => $selectedProduct,
+        ])->layout('components.layouts.app', [
+            'title' => 'Каталог суши и роллов — ' . config('app.name'),
+            'metaDescription' => 'Суши, роллы и сеты в меню ' . config('app.name') . '. Выберите блюда и оформите заказ с доставкой или самовывозом.',
         ]);
     }
 }

@@ -54,6 +54,13 @@ class ProductShow extends Component
     public function render()
     {
         return view('livewire.katalog.product-show')
-            ->layout('components.layouts.app');
+            ->layout('components.layouts.app', [
+                'title' => $this->product->name . ' — ' . config('app.name'),
+                'metaDescription' => $this->product->description
+                    ?: 'Закажите ' . $this->product->name . ' с доставкой или самовывозом.',
+                'metaImage' => $this->product->images->first()
+                    ? asset('storage/' . ltrim($this->product->images->first()->path, '/'))
+                    : null,
+            ]);
     }
 }

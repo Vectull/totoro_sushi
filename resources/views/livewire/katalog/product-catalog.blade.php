@@ -1,5 +1,96 @@
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
+    @if ($promotions->isNotEmpty())
+        @php($bannerProduct = $promotions->get($bannerIndex))
+        <section
+            aria-label="Акции и специальные предложения"
+            aria-roledescription="карусель"
+            class="relative mb-10 overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-950 via-emerald-900 to-stone-900 text-white shadow-xl"
+        >
+            <div class="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-amber-300/20 blur-3xl"></div>
+            <div class="pointer-events-none absolute -bottom-28 left-1/3 h-64 w-64 rounded-full bg-rose-400/20 blur-3xl"></div>
+
+            <div wire:key="promotion-banner-{{ $bannerProduct->id }}" class="relative grid min-h-72 items-center gap-8 px-8 py-10 sm:px-12 lg:grid-cols-[1.1fr_.9fr] lg:px-16">
+                <div class="max-w-2xl pr-8 sm:pr-12">
+                    <span class="inline-flex rounded-full bg-amber-300 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-stone-950">
+                        {{ $bannerProduct->discount_percent ? 'Скидка ' . rtrim(rtrim((string) $bannerProduct->discount_percent, '0'), '.') . '%' : 'Специальное предложение' }}
+                    </span>
+
+                    <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+                        {{ $bannerProduct->name }}
+                    </h2>
+
+                    <p class="mt-3 max-w-xl text-sm leading-6 text-emerald-50/80 sm:text-base">
+                        {{ $bannerProduct->description ?: 'Попробуйте наше специальное предложение. Закажите сейчас с доставкой или самовывозом.' }}
+                    </p>
+
+                    <div class="mt-5 flex flex-wrap items-center gap-3">
+                        <span class="text-2xl font-black">
+                            {{ number_format($bannerProduct->price, 0, ',', ' ') }} ₽
+                        </span>
+                        @if ($bannerProduct->old_price)
+                            <span class="text-base text-white/55 line-through">
+                                {{ number_format($bannerProduct->old_price, 0, ',', ' ') }} ₽
+                            </span>
+                        @endif
+                        <a
+                            href="{{ route('catalog.product', ['product' => $bannerProduct->slug]) }}"
+                            wire:navigate
+                            class="rounded-xl bg-amber-300 px-5 py-3 text-sm font-extrabold text-stone-950 transition hover:-translate-y-0.5 hover:bg-amber-200"
+                        >
+                            Смотреть предложение
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hidden h-52 items-center justify-center overflow-hidden rounded-3xl bg-white/10 ring-1 ring-white/15 sm:flex lg:h-60">
+                    @if ($bannerProduct->images->isNotEmpty())
+                        <img
+                            src="{{ asset('storage/' . ltrim($bannerProduct->images->first()->path, '/')) }}"
+                            alt="{{ $bannerProduct->name }}"
+                            class="h-full w-full object-cover"
+                        >
+                    @else
+                        <div class="text-8xl" aria-hidden="true">🍣</div>
+                    @endif
+                </div>
+            </div>
+
+            @if ($promotions->count() > 1)
+                <button
+                    type="button"
+                    wire:click="previousBanner"
+                    aria-label="Предыдущее предложение"
+                    class="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 text-white ring-1 ring-white/30 transition hover:bg-black/45 sm:left-5 sm:h-12 sm:w-12"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6" /></svg>
+                </button>
+                <button
+                    type="button"
+                    wire:click="nextBanner"
+                    aria-label="Следующее предложение"
+                    class="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 text-white ring-1 ring-white/30 transition hover:bg-black/45 sm:right-5 sm:h-12 sm:w-12"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6" /></svg>
+                </button>
+            @endif
+
+            @if ($promotions->count() > 1)
+                <div class="relative flex justify-center gap-2 pb-5" aria-label="Выбрать предложение">
+                    @foreach ($promotions as $index => $promotion)
+                        <button
+                            type="button"
+                            wire:click="$set('bannerIndex', {{ $index }})"
+                            aria-label="Предложение {{ $index + 1 }}"
+                            @if ($index === $bannerIndex) aria-current="true" @endif
+                            class="h-2.5 rounded-full transition-all {{ $index === $bannerIndex ? 'w-7 bg-amber-300' : 'w-2.5 bg-white/50 hover:bg-white/80' }}"
+                        ></button>
+                    @endforeach
+                </div>
+            @endif
+        </section>
+    @endif
+
     <div class="mb-8">
         <h1 class="text-3xl font-bold tracking-tight text-gray-900">
             Каталог

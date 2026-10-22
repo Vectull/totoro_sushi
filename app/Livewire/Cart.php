@@ -38,6 +38,10 @@ class Cart extends Component
             'items' => $cart->items(),
             'total' => $cart->total(),
             'count' => $cart->count(),
-        ])->layout('components.layouts.app');
+        ])->layout('components.layouts.app', [
+            'title' => 'Корзина — ' . config('app.name'),
+            'metaDescription' => 'Проверьте выбранные блюда перед оформлением заказа.',
+            'metaRobots' => 'noindex, nofollow',
+        ]);
     }
 }
