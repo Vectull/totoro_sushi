@@ -35,6 +35,8 @@ class OrderService
             $order->user_id = $customerData['user_id'] ?? null;
             $order->status = OrderStatus::Preparing;
             $order->payment_status = 'pending';
+            $order->delivery_method = $customerData['delivery_method'];
+            $order->payment_method = $customerData['payment_method'];
 
             $order->customer_name = $customerData['customer_name'];
             $order->customer_phone = $customerData['customer_phone'];
