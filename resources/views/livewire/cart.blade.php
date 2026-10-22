@@ -78,7 +78,7 @@
 
                                 @if ($item['image'])
                                     <img
-                                        src="{{ asset('storage/' . $item['image']) }}"
+                                        src="{{ asset('storage/' . ltrim($item['image'], '/')) }}"
                                         alt="{{ $item['name'] }}"
                                         class="h-full w-full object-cover"
                                     >
@@ -194,6 +194,32 @@
                         <div class="flex justify-between text-stone-500">
                             <span>Товары</span>
                             <span>{{ $count }} шт.</span>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-4 rounded-xl bg-stone-50 px-3 py-3">
+                            <div>
+                                <p class="font-bold text-stone-800">Палочки</p>
+                                <p class="text-xs text-stone-500">Сколько положить к заказу</p>
+                            </div>
+                            <div class="flex items-center rounded-lg border border-stone-200 bg-white">
+                                <button
+                                    type="button"
+                                    wire:click="decreaseChopsticks"
+                                    @disabled($chopsticks <= 0)
+                                    aria-label="Уменьшить количество палочек"
+                                    class="flex h-9 w-9 items-center justify-center rounded-l-lg text-lg font-bold text-stone-700 hover:bg-stone-50 disabled:opacity-40"
+                                >−</button>
+                                <span class="min-w-10 border-x border-stone-200 px-2 py-2 text-center text-sm font-bold" aria-live="polite">
+                                    {{ $chopsticks }}
+                                </span>
+                                <button
+                                    type="button"
+                                    wire:click="increaseChopsticks"
+                                    @disabled($chopsticks >= 99)
+                                    aria-label="Увеличить количество палочек"
+                                    class="flex h-9 w-9 items-center justify-center rounded-r-lg text-lg font-bold text-stone-700 hover:bg-stone-50 disabled:opacity-40"
+                                >+</button>
+                            </div>
                         </div>
 
                         <div class="flex justify-between text-stone-500">

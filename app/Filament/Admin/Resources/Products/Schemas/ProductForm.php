@@ -9,6 +9,7 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Schemas\Schema;
 
 class ProductForm
@@ -81,6 +82,38 @@ class ProductForm
 
                 Toggle::make('is_promotion')
                     ->label('Акция'),
+
+                Repeater::make('productModifiers')
+                    ->label('Добавки к блюду')
+                    ->relationship()
+                    ->schema([
+                        Select::make('modifier_id')
+                            ->label('Добавка')
+                            ->relationship(
+                                'modifier',
+                                'name',
+                                modifyQueryUsing: fn (Builder $query) => $query->where('slug', '!=', 'chopsticks'),
+                            )
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+
+                        Toggle::make('is_required')
+                            ->label('Обязательная'),
+
+                        TextInput::make('sort_order')
+                            ->label('Порядок')
+                            ->numeric()
+                            ->integer()
+                            ->minValue(0)
+                            ->default(0)
+                            ->required(),
+                    ])
+                    ->columns(3)
+                    ->defaultItems(0)
+                    ->reorderable()
+                    ->collapsible()
+                    ->columnSpanFull(),
 
                 Repeater::make('images')
                     ->label('Фотографии товара')

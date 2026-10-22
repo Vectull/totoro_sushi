@@ -25,9 +25,9 @@
         <div class="overflow-hidden rounded-2xl bg-gray-100">
             @if ($product->images->isNotEmpty())
                 <img
-                    src="{{ asset('storage/' . $product->images->first()->path) }}"
+                    src="{{ asset('storage/' . ltrim($product->images->first()->path, '/')) }}"
                     alt="{{ $product->name }}"
-                    class="aspect-square w-full object-cover"
+                    class="aspect-square w-full bg-gray-50 object-contain"
                 >
            @else
     <div class="flex aspect-square w-full items-center justify-center bg-gray-100 text-gray-400">
@@ -92,13 +92,14 @@
 
                     <div class="space-y-3">
                         @foreach ($product->productModifiers as $productModifier)
-                            @if ($productModifier->modifier?->is_active)
+                            @if ($productModifier->modifier?->is_active && $productModifier->modifier->slug !== 'chopsticks')
                                 <label class="flex cursor-pointer items-center justify-between rounded-xl border border-gray-200 p-4">
                                     <div class="flex items-center gap-3">
                                         <input
                                             type="checkbox"
                                             value="{{ $productModifier->modifier_id }}"
                                             wire:model="selectedModifiers"
+                                            @disabled($productModifier->is_required)
                                             class="rounded border-gray-300"
                                         >
 

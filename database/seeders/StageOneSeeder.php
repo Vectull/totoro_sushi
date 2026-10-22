@@ -81,9 +81,20 @@ class StageOneSeeder extends Seeder
             ['name' => 'Соевый соус', 'slug' => 'soy-sauce', 'price' => 35.00],
             ['name' => 'Васаби', 'slug' => 'wasabi', 'price' => 30.00],
             ['name' => 'Имбирь', 'slug' => 'ginger', 'price' => 20.00],
-            ['name' => 'Палочки', 'slug' => 'chopsticks', 'price' => 40.00],
             ['name' => 'Доп. соус', 'slug' => 'extra-sauce', 'price' => 45.00],
         ];
+
+        $chopsticksModifier = Modifier::query()
+            ->where('slug', 'chopsticks')
+            ->first();
+
+        if ($chopsticksModifier) {
+            ProductModifier::query()
+                ->where('modifier_id', $chopsticksModifier->id)
+                ->delete();
+
+            $chopsticksModifier->delete();
+        }
 
         $modifierMap = [];
 

@@ -4,7 +4,7 @@
     class="group overflow-hidden rounded-[1.75rem] bg-white shadow-sm ring-1 ring-stone-200/80 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
     <div class="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-amber-100 via-rose-50 to-emerald-100">
         @if ($product->images->first())
-            <img src="{{ asset('storage/' . $product->images->first()->path) }}"
+            <img src="{{ asset('storage/' . ltrim($product->images->first()->path, '/')) }}"
                  alt="{{ $product->name }}"
                  loading="lazy"
                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105">

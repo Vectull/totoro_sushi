@@ -164,7 +164,7 @@
                 >
                     @if ($product->images->isNotEmpty())
                         <img
-                            src="{{ asset('storage/' . $product->images->first()->path) }}"
+                            src="{{ asset('storage/' . ltrim($product->images->first()->path, '/')) }}"
                             alt="{{ $product->name }}"
                             class="h-56 w-full object-cover"
                         >
@@ -234,9 +234,9 @@
 
                     @if ($selectedProduct->images->isNotEmpty())
                         <img
-                            src="{{ asset('storage/' . $selectedProduct->images->first()->path) }}"
+                            src="{{ asset('storage/' . ltrim($selectedProduct->images->first()->path, '/')) }}"
                             alt="{{ $selectedProduct->name }}"
-                            class="h-64 w-full object-cover sm:h-80"
+                            class="h-64 w-full bg-stone-50 object-contain sm:h-80"
                         >
                     @else
                         <div class="flex h-64 items-center justify-center bg-gray-100 text-5xl">
@@ -259,6 +259,43 @@
                             <p class="mt-3 whitespace-pre-line text-gray-600">
                                 {{ $selectedProduct->description }}
                             </p>
+                        @endif
+
+                        @php($availableModifiers = $selectedProduct->productModifiers->filter(fn ($item) => $item->modifier?->is_active && $item->modifier->slug !== 'chopsticks'))
+                        @if ($availableModifiers->isNotEmpty())
+                            <section class="mt-6" aria-labelledby="product-modifiers-heading">
+                                <h3 id="product-modifiers-heading" class="text-sm font-bold text-gray-900">
+                                    Добавить к заказу
+                                </h3>
+                                <div class="mt-3 grid gap-2 sm:grid-cols-2">
+                                    @foreach ($availableModifiers as $productModifier)
+                                        <label wire:key="modifier-{{ $productModifier->modifier_id }}" class="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-gray-200 px-3 py-3 transition hover:border-emerald-300 has-[:checked]:border-emerald-700 has-[:checked]:bg-emerald-50">
+                                            <span class="flex min-w-0 items-center gap-2">
+                                                <input
+                                                    type="checkbox"
+                                                    value="{{ $productModifier->modifier_id }}"
+                                                    wire:model="selectedModifiers"
+                                                    @disabled($productModifier->is_required)
+                                                    class="rounded border-gray-300 text-emerald-800 focus:ring-emerald-700"
+                                                >
+                                                <span class="text-sm font-medium text-gray-800">
+                                                    {{ $productModifier->modifier->name }}
+                                                    @if ($productModifier->is_required)
+                                                        <span class="block text-xs font-normal text-gray-500">Обязательно</span>
+                                                    @endif
+                                                </span>
+                                            </span>
+                                            <span class="shrink-0 text-sm font-semibold text-gray-700">
+                                                @if ((float) $productModifier->modifier->price > 0)
+                                                    +{{ number_format($productModifier->modifier->price, 0, ',', ' ') }} ₽
+                                                @else
+                                                    Бесплатно
+                                                @endif
+                                            </span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </section>
                         @endif
 
                <div class="mt-6 border-t border-gray-200 pt-5">

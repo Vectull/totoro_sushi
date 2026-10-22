@@ -25,6 +25,7 @@ class Order extends Model
         'delivery_cost',
         'delivery_method',
         'payment_method',
+        'chopsticks_quantity',
         'discount',
         'total',
     ];
@@ -35,6 +36,7 @@ class Order extends Model
         'status' => OrderStatus::class,
         'delivery_method' => OrderDeliveryMethod::class,
         'payment_method' => OrderPaymentMethod::class,
+        'chopsticks_quantity' => 'integer',
         'subtotal' => 'decimal:2',
         'delivery_cost' => 'decimal:2',
         'discount' => 'decimal:2',

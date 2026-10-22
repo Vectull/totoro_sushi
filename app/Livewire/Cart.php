@@ -7,6 +7,25 @@ use Livewire\Component;
 
 class Cart extends Component
 {
+    public int $chopsticks = 0;
+
+    public function mount(CartService $cart): void
+    {
+        $this->chopsticks = $cart->chopsticks();
+    }
+
+    public function decreaseChopsticks(CartService $cart): void
+    {
+        $this->chopsticks = max(0, $this->chopsticks - 1);
+        $cart->setChopsticks($this->chopsticks);
+    }
+
+    public function increaseChopsticks(CartService $cart): void
+    {
+        $this->chopsticks = min(99, $this->chopsticks + 1);
+        $cart->setChopsticks($this->chopsticks);
+    }
+
   public function updateQuantity(
     CartService $cart,
     string $key,

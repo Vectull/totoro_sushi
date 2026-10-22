@@ -53,6 +53,10 @@ TextColumn::make('payment_method')
                     ->label('Оплата')
                     ->badge(),
 
+                TextColumn::make('chopsticks_quantity')
+                    ->label('Палочки')
+                    ->sortable(),
+
                 TextColumn::make('total')
                     ->label('Сумма')
                     ->money('RUB')

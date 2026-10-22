@@ -47,7 +47,9 @@ class Product extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->hasMany(ProductImage::class)
+            ->orderByDesc('is_main')
+            ->orderBy('sort_order');
     }
 
     public function productAttributeValues(): HasMany
@@ -57,6 +59,7 @@ class Product extends Model
 
     public function productModifiers(): HasMany
     {
-        return $this->hasMany(ProductModifier::class);
+        return $this->hasMany(ProductModifier::class)
+            ->orderBy('sort_order');
     }
 }

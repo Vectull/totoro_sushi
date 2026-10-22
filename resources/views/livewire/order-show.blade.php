@@ -200,6 +200,13 @@
                         </p>
                     </div>
 
+                    <div>
+                        <p class="text-sm text-stone-500">Палочки</p>
+                        <p class="mt-1 font-bold text-stone-900">
+                            {{ $order->chopsticks_quantity }} шт.
+                        </p>
+                    </div>
+
                     @if ($order->customer_email)
                         <div>
                             <p class="text-sm text-stone-500">Email</p>

@@ -41,6 +41,9 @@ class OrderInfolist
                             ->formatStateUsing(
                                 fn ($state) => $state?->label() ?? '—'
                             ),
+
+                        TextEntry::make('chopsticks_quantity')
+                            ->label('Палочки, шт.'),
                     ])
                     ->columns(2),
 

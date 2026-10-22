@@ -23,6 +23,12 @@ class ProductShow extends Component
             'images',
             'productModifiers.modifier',
         ]);
+
+        $this->selectedModifiers = $this->product->productModifiers
+            ->filter(fn ($item) => $item->is_required && $item->modifier?->is_active)
+            ->pluck('modifier_id')
+            ->map(fn ($id) => (int) $id)
+            ->all();
     }
 
     public function increaseQuantity(): void
@@ -35,21 +41,26 @@ class ProductShow extends Component
         $this->quantity = max(1, $this->quantity - 1);
     }
 
-   public function addToCart(CartService $cart): void
-{
-    $cart->add(
-        $this->product,
-        $this->quantity,
-        $this->selectedModifiers
-    );
+    public function addToCart(CartService $cart): void
+    {
+        $this->validate([
+            'quantity' => ['required', 'integer', 'min:1', 'max:99'],
+            'selectedModifiers' => ['array'],
+            'selectedModifiers.*' => ['integer'],
+        ]);
 
-    $this->dispatch('cart-updated');
+        try {
+            $cart->add($this->product, $this->quantity, $this->selectedModifiers);
+        } catch (\InvalidArgumentException $exception) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'selectedModifiers' => $exception->getMessage(),
+            ]);
+        }
 
-    session()->flash(
-        'cart_message',
-        'Товар добавлен в корзину.'
-    );
-}
+        $this->dispatch('cart-updated');
+
+        session()->flash('cart_message', 'Товар добавлен в корзину.');
+    }
 
     public function render()
     {

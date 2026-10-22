@@ -36,6 +36,22 @@ class ProductInfolist
                 TextEntry::make('pieces')
                     ->numeric()
                     ->placeholder('-'),
+                TextEntry::make('product_modifiers_summary')
+                    ->label('Добавки')
+                    ->state(fn (Product $record): array => $record->productModifiers()
+                        ->with('modifier')
+                        ->get()
+                        ->filter(fn ($item) => $item->modifier)
+                        ->map(fn ($item) => $item->modifier->name
+                            . ' — '
+                            . number_format((float) $item->modifier->price, 2, ',', ' ')
+                            . ' ₽'
+                            . ($item->is_required ? ' · обязательно' : ''))
+                        ->values()
+                        ->all())
+                    ->listWithLineBreaks()
+                    ->placeholder('-')
+                    ->columnSpanFull(),
                 IconEntry::make('is_active')
                     ->boolean(),
                 IconEntry::make('is_popular')

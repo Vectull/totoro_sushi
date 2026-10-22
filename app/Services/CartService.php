@@ -9,10 +9,21 @@ use InvalidArgumentException;
 class CartService
 {
     private const KEY = 'cart';
+    private const CHOPSTICKS_KEY = 'cart_chopsticks';
 
     public function items(): array
     {
         return Session::get(self::KEY, []);
+    }
+
+    public function chopsticks(): int
+    {
+        return max(0, min((int) Session::get(self::CHOPSTICKS_KEY, 0), 99));
+    }
+
+    public function setChopsticks(int $quantity): void
+    {
+        Session::put(self::CHOPSTICKS_KEY, max(0, min($quantity, 99)));
     }
 
     public function add(
@@ -32,7 +43,8 @@ class CartService
             ->filter(
                 fn ($item) =>
                     $item->modifier &&
-                    $item->modifier->is_active
+                    $item->modifier->is_active &&
+                    $item->modifier->slug !== 'chopsticks'
             )
             ->keyBy('modifier_id');
 
@@ -48,12 +60,15 @@ class CartService
         foreach ($product->productModifiers as $productModifier) {
             if (
                 $productModifier->is_required &&
+                $productModifier->modifier?->is_active &&
                 ! $modifierIds->contains(
                     (int) $productModifier->modifier_id
                 )
             ) {
+                $modifierName = $productModifier->modifier?->name ?? 'обязательная добавка';
+
                 throw new InvalidArgumentException(
-                    "Выберите обязательную добавку: {$productModifier->modifier->name}."
+                    "Выберите обязательную добавку: {$modifierName}."
                 );
             }
         }
@@ -118,6 +133,10 @@ class CartService
         }
 
         Session::put(self::KEY, $items);
+
+        if ($items === []) {
+            Session::forget(self::CHOPSTICKS_KEY);
+        }
     }
 
     public function remove(string $key): void
@@ -127,11 +146,16 @@ class CartService
         unset($items[$key]);
 
         Session::put(self::KEY, $items);
+
+        if ($items === []) {
+            Session::forget(self::CHOPSTICKS_KEY);
+        }
     }
 
     public function clear(): void
     {
         Session::forget(self::KEY);
+        Session::forget(self::CHOPSTICKS_KEY);
     }
 
     public function total(): float
