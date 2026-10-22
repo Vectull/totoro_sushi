@@ -58,7 +58,7 @@
                     <button type="submit" class="rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-stone-700 ring-1 ring-stone-200 transition hover:bg-stone-100">Выйти</button>
                 </form>
             @else
-                <a href="{{ route('login') }}" wire:navigate class="hidden rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-stone-700 ring-1 ring-stone-200 transition hover:bg-stone-100 sm:inline-flex">Войти</a>
+                <a href="{{ route('register') }}" wire:navigate class="hidden rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-stone-700 ring-1 ring-stone-200 transition hover:bg-stone-100 sm:inline-flex">Зарегистрироваться</a>
             @endauth
 
         @if (session('last_order_id') && (session('last_order_token') || auth()->check()))
@@ -107,7 +107,7 @@
                             <button type="submit" class="w-full rounded-xl px-4 py-3 text-left text-sm font-bold text-stone-700 hover:bg-stone-50">Выйти из аккаунта</button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-stone-50">Войти</a>
+                        <a href="{{ route('register') }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-stone-50">Зарегистрироваться</a>
                     @endauth
                     @if (session('last_order_id') && (session('last_order_token') || auth()->check()))
                         <a href="{{ route('order.show', array_filter(['order' => session('last_order_id'), 'token' => session('last_order_token')], fn ($value) => $value !== null)) }}" wire:navigate class="rounded-xl px-4 py-3 text-sm font-bold text-amber-800 hover:bg-amber-50">Отследить заказ</a>

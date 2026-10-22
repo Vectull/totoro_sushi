@@ -36,6 +36,6 @@
         @endif
 
         <p class="mt-6 text-center text-sm text-stone-600">Нет аккаунта? <a href="{{ route('register') }}" class="font-bold text-emerald-900 underline underline-offset-4">Зарегистрироваться</a></p>
-        <p class="mt-3 text-center text-sm text-stone-600">Войти по номеру? <a href="{{ route('register') }}" class="font-bold text-emerald-900 underline underline-offset-4">Получить SMS-код</a></p>
+        <a href="{{ route('phone-auth.form') }}" class="mt-3 flex items-center justify-center rounded-xl border border-emerald-900 px-5 py-3.5 text-sm font-extrabold text-emerald-950 transition hover:bg-emerald-50">Войти по номеру телефона</a>
     </section>
 </x-layouts.app>

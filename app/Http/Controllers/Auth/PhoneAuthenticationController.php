@@ -16,11 +16,19 @@ use Illuminate\View\View;
 
 class PhoneAuthenticationController extends Controller
 {
+    public function showPhoneForm(Request $request): View
+    {
+        $flow = $request->query('flow') === 'register' ? 'register' : 'login';
+
+        return view('auth.phone-login', compact('flow'));
+    }
+
     public function sendCode(Request $request, SmsRuService $sms): RedirectResponse
     {
         $data = $request->validate([
             'phone' => ['required', 'string', 'max:32'],
             'name' => ['nullable', 'string', 'max:255'],
+            'flow' => ['nullable', 'in:login,register'],
         ]);
         $phone = $this->normalizeRussianPhone($data['phone']);
 
@@ -55,6 +63,7 @@ class PhoneAuthenticationController extends Controller
 
         $request->session()->put('phone_auth_pending', $phone);
         $request->session()->put('phone_auth_pending_name', $name);
+        $request->session()->put('phone_auth_flow', $data['flow'] ?? 'register');
 
         return redirect()->route('phone-auth.verify.form')->with('status', 'Код отправлен. Он действует 5 минут.');
     }
@@ -84,8 +93,9 @@ class PhoneAuthenticationController extends Controller
             Cache::forget($this->cacheKey($phone));
             $request->session()->forget('phone_auth_pending');
             $request->session()->forget('phone_auth_pending_name');
+            $request->session()->forget('phone_auth_flow');
 
-            return redirect()->route('register')->withErrors(['code' => 'Превышено число попыток. Запросите новый код.']);
+            return redirect()->route('phone-auth.form')->withErrors(['code' => 'Превышено число попыток. Запросите новый код.']);
         }
 
         if (! Hash::check($data['code'], $verification['hash'])) {
@@ -110,7 +120,7 @@ class PhoneAuthenticationController extends Controller
         }
 
         Cache::forget($this->cacheKey($phone));
-        $request->session()->forget(['phone_auth_pending', 'phone_auth_pending_name']);
+        $request->session()->forget(['phone_auth_pending', 'phone_auth_pending_name', 'phone_auth_flow']);
         Auth::login($user);
         $request->session()->regenerate();
 

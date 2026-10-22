@@ -1,7 +1,7 @@
 <x-layouts.app :title="'Подтверждение телефона — ' . config('app.name')" metaRobots="noindex, nofollow">
     <section class="mx-auto max-w-md rounded-3xl bg-white p-6 shadow-sm ring-1 ring-stone-200 sm:p-8">
-        <h1 class="text-2xl font-extrabold tracking-tight text-stone-950">Подтвердите номер</h1>
-        <p class="mt-2 text-sm leading-6 text-stone-600">Введите шестизначный код из SMS на номер {{ session('phone_auth_pending') }}. Код действует 5 минут.</p>
+        <h1 class="text-2xl font-extrabold tracking-tight text-stone-950">{{ session('phone_auth_flow') === 'login' ? 'Вход по номеру телефона' : 'Подтвердите номер' }}</h1>
+        <p class="mt-2 text-sm leading-6 text-stone-600">Введите шестизначный код из SMS на номер {{ session('phone_auth_pending') }}. Код действует 5 минут. Если аккаунта ещё нет, он будет создан автоматически.</p>
         @if (session('status'))
             <p class="mt-4 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-900">{{ session('status') }}</p>
         @endif
@@ -22,7 +22,10 @@
         <form method="POST" action="{{ route('phone-auth.send') }}" class="mt-3">
             @csrf
             <input type="hidden" name="phone" value="{{ session('phone_auth_pending') }}">
+            <input type="hidden" name="name" value="{{ session('phone_auth_pending_name') }}">
+            <input type="hidden" name="flow" value="{{ session('phone_auth_flow', 'register') }}">
             <button type="submit" class="w-full rounded-xl px-5 py-3 text-sm font-bold text-emerald-900 hover:bg-emerald-50">Отправить новый код</button>
         </form>
+        <a href="{{ session('phone_auth_flow') === 'login' ? route('phone-auth.form') : route('register') }}" class="mt-2 block text-center text-sm font-bold text-emerald-900 underline underline-offset-4">Изменить номер</a>
     </section>
 </x-layouts.app>

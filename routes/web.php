@@ -25,6 +25,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store'])
         ->name('register.store');
 
+    Route::get('/auth/phone', [PhoneAuthenticationController::class, 'showPhoneForm'])
+        ->name('phone-auth.form');
+
     Route::post('/register/phone/send-code', [PhoneAuthenticationController::class, 'sendCode'])
         ->middleware('throttle:phone-auth-send')
         ->name('phone-auth.send');
