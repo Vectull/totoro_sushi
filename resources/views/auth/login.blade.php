@@ -20,6 +20,9 @@
             <div>
                 <label for="password" class="block text-sm font-bold text-stone-800">Пароль</label>
                 <input id="password" name="password" type="password" required autocomplete="current-password" class="mt-2 w-full rounded-xl border border-stone-300 px-4 py-3 text-stone-900 outline-none transition focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20">
+                @error('password')
+                    <p class="mt-2 text-sm font-medium text-rose-700">{{ $message }}</p>
+                @enderror
             </div>
 
             <label class="flex items-center gap-2 text-sm text-stone-700">

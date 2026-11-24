@@ -32,9 +32,11 @@ class RegisteredUserController extends Controller
             'role' => UserRole::Customer,
         ]);
 
+        $user->sendEmailVerificationNotification();
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->intended(route('home'));
+        return redirect()->route('verification.notice')
+            ->with('status', 'Мы отправили письмо со ссылкой для подтверждения на указанную почту.');
     }
 }

@@ -41,43 +41,20 @@
                     >
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6" /></svg>
                     </button>
-                @endif
-            </div>
 
-            <div class="flex flex-col gap-3 px-5 py-5 sm:px-8 sm:py-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-                <div class="min-w-0">
-                    <span class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-amber-900">Специальное предложение</span>
-                    <h2 class="mt-2 text-xl font-extrabold tracking-tight text-stone-950 sm:text-2xl">{{ $banner->title }}</h2>
-                    @if ($banner->description)
-                        <p class="mt-2 max-w-3xl whitespace-pre-line text-sm leading-6 text-stone-600 sm:text-base">{{ $banner->description }}</p>
-                    @endif
-                </div>
-
-                @if ($banner->button_label && $banner->button_url)
-                    <a
-                        href="{{ $banner->button_url }}"
-                        target="{{ str_starts_with($banner->button_url, 'http') ? '_blank' : '_self' }}"
-                        rel="{{ str_starts_with($banner->button_url, 'http') ? 'noopener noreferrer' : '' }}"
-                        class="inline-flex shrink-0 items-center justify-center rounded-xl bg-emerald-900 px-5 py-3 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-emerald-800"
-                    >
-                        {{ $banner->button_label }}
-                    </a>
+                    <div class="absolute inset-x-0 bottom-3 flex justify-center gap-2" aria-label="Выбрать слайд">
+                        @foreach ($banners as $index => $item)
+                            <button
+                                type="button"
+                                wire:click="$set('bannerIndex', {{ $index }})"
+                                aria-label="Слайд {{ $index + 1 }}"
+                                aria-current="{{ $index === $bannerIndex ? 'true' : 'false' }}"
+                                class="h-2.5 rounded-full shadow transition-all {{ $index === $bannerIndex ? 'w-7 bg-emerald-800' : 'w-2.5 bg-white/90 hover:bg-white' }}"
+                            ></button>
+                        @endforeach
+                    </div>
                 @endif
             </div>
         </div>
-
-        @if ($banners->count() > 1)
-            <div class="flex justify-center gap-2 border-t border-stone-100 py-3" aria-label="Выбрать слайд">
-                @foreach ($banners as $index => $item)
-                    <button
-                        type="button"
-                        wire:click="$set('bannerIndex', {{ $index }})"
-                        aria-label="Слайд {{ $index + 1 }}"
-                        aria-current="{{ $index === $bannerIndex ? 'true' : 'false' }}"
-                        class="h-2.5 rounded-full transition-all {{ $index === $bannerIndex ? 'w-7 bg-emerald-800' : 'w-2.5 bg-stone-300 hover:bg-stone-400' }}"
-                    ></button>
-                @endforeach
-            </div>
-        @endif
     </section>
 @endif

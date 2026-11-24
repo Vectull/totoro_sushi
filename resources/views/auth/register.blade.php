@@ -23,12 +23,13 @@
                         @error('name') <p class="mt-1 text-sm text-rose-700">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label for="email" class="block text-sm font-bold text-stone-800">Email</label>
+                        <label for="email" class="block text-sm font-bold text-stone-800">Электронная почта</label>
                         <input id="email" name="email" type="email" value="{{ old('email') }}" required autocomplete="email" class="mt-2 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20">
                         @error('email') <p class="mt-1 text-sm text-rose-700">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-bold text-stone-800">Пароль</label>
+                        <p class="mt-1 text-xs text-stone-500">Не менее 8 символов.</p>
                         <input id="password" name="password" type="password" required minlength="8" autocomplete="new-password" class="mt-2 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20">
                         @error('password') <p class="mt-1 text-sm text-rose-700">{{ $message }}</p> @enderror
                     </div>
